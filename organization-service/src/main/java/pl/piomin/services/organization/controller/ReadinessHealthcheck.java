@@ -12,7 +12,7 @@ public class ReadinessHealthcheck implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
-        return HealthCheckResponse.named("Employee Health Check").up().build();
+        return HealthCheckResponse.named("Organization Health Check").up().build();
     }
 
 }
