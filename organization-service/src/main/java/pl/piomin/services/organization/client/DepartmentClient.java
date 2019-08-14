@@ -1,20 +1,27 @@
 package pl.piomin.services.organization.client;
 
-import java.util.List;
-
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import pl.piomin.services.organization.model.Department;
 
-@FeignClient(name = "department-service")
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
+
+@Path("/departments")
+@RegisterRestClient
 public interface DepartmentClient {
 
-	@GetMapping("/organization/{organizationId}")
-	public List<Department> findByOrganization(@PathVariable("organizationId") Long organizationId);
-	
-	@GetMapping("/organization/{organizationId}/with-employees")
-	public List<Department> findByOrganizationWithEmployees(@PathVariable("organizationId") Long organizationId);
+	@GET
+	@Path("/organization/{organizationId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	List<Department> findByOrganization(@PathParam("organizationId") Long organizationId);
+
+	@GET
+	@Path("/organization/{organizationId}/with-employees")
+	@Produces(MediaType.APPLICATION_JSON)
+	List<Department> findByOrganizationWithEmployees(@PathParam("organizationId") Long organizationId);
 	
 }

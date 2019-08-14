@@ -1,56 +1,60 @@
 package pl.piomin.services.department.controller;
 
-import java.util.List;
-
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import pl.piomin.services.department.client.EmployeeClient;
 import pl.piomin.services.department.model.Department;
 import pl.piomin.services.department.repository.DepartmentRepository;
 
-@RestController
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import java.util.List;
+
+@Path("/departments")
 public class DepartmentController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentController.class);
 	
-	@Autowired
+	@Inject
 	DepartmentRepository repository;
-	@Autowired
+	@Inject
+	@RestClient
 	EmployeeClient employeeClient;
 	
-	@PostMapping("/")
-	public Department add(@RequestBody Department department) {
+	@Path("/")
+	@POST
+	public Department add(Department department) {
 		LOGGER.info("Department add: {}", department);
 		return repository.add(department);
 	}
 	
-	@GetMapping("/{id}")
-	public Department findById(@PathVariable("id") Long id) {
+	@Path("/{id}")
+	@GET
+	public Department findById(@PathParam("id") Long id) {
 		LOGGER.info("Department find: id={}", id);
 		return repository.findById(id);
 	}
 	
-	@GetMapping("/")
+	@GET
 	public List<Department> findAll() {
 		LOGGER.info("Department find");
 		return repository.findAll();
 	}
 	
-	@GetMapping("/organization/{organizationId}")
-	public List<Department> findByOrganization(@PathVariable("organizationId") Long organizationId) {
+	@Path("/organization/{organizationId}")
+	@GET
+	public List<Department> findByOrganization(@PathParam("organizationId") Long organizationId) {
 		LOGGER.info("Department find: organizationId={}", organizationId);
 		return repository.findByOrganization(organizationId);
 	}
 	
-	@GetMapping("/organization/{organizationId}/with-employees")
-	public List<Department> findByOrganizationWithEmployees(@PathVariable("organizationId") Long organizationId) {
+	@Path("/organization/{organizationId}/with-employees")
+	@GET
+	public List<Department> findByOrganizationWithEmployees(@PathParam("organizationId") Long organizationId) {
 		LOGGER.info("Department find: organizationId={}", organizationId);
 		List<Department> departments = repository.findByOrganization(organizationId);
 		departments.forEach(d -> d.setEmployees(employeeClient.findByDepartment(d.getId())));
