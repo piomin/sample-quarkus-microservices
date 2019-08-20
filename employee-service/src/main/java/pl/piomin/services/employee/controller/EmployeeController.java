@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Set;
 
 @Path("/employees")
 @Produces(MediaType.APPLICATION_JSON)
@@ -33,21 +34,21 @@ public class EmployeeController {
 	}
 
 	@GET
-	public List<Employee> findAll() {
+	public Set<Employee> findAll() {
 		LOGGER.info("Employee find");
 		return repository.findAll();
 	}
 	
 	@Path("/department/{departmentId}")
     @GET
-	public List<Employee> findByDepartment(@PathParam("departmentId") Long departmentId) {
+	public Set<Employee> findByDepartment(@PathParam("departmentId") Long departmentId) {
 		LOGGER.info("Employee find: departmentId={}", departmentId);
 		return repository.findByDepartment(departmentId);
 	}
 	
 	@Path("/organization/{organizationId}")
     @GET
-	public List<Employee> findByOrganization(@PathParam("organizationId") Long organizationId) {
+	public Set<Employee> findByOrganization(@PathParam("organizationId") Long organizationId) {
 		LOGGER.info("Employee find: organizationId={}", organizationId);
 		return repository.findByOrganization(organizationId);
 	}
