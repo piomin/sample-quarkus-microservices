@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
 public class OrganizationControllerTests {
@@ -33,7 +34,9 @@ public class OrganizationControllerTests {
 
     @Test
     public void testFindByIdWithDepartments() {
-        given().when().get("/organizations/{id}/with-departments", 1L).then().statusCode(200).body(notNullValue());
+        given().when().get("/organizations/{id}/with-departments", 1L).then().statusCode(200)
+                .body(notNullValue())
+                .body("departments.size()", is(1));
     }
 
     @Test
