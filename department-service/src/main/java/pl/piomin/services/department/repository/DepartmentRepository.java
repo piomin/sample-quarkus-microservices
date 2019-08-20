@@ -1,19 +1,24 @@
 package pl.piomin.services.department.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import pl.piomin.services.department.model.Department;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class DepartmentRepository {
 
-	private List<Department> departments = new ArrayList<>();
-	
+	private Set<Department> departments = new HashSet<>();
+
+	public DepartmentRepository() {
+		add(new Department(1L, "Test1"));
+		add(new Department(1L, "Test2"));
+		add(new Department(2L, "Test3"));
+	}
+
 	public Department add(Department department) {
 		department.setId((long) (departments.size()+1));
 		departments.add(department);
@@ -28,12 +33,12 @@ public class DepartmentRepository {
 			return null;
 	}
 	
-	public List<Department> findAll() {
+	public Set<Department> findAll() {
 		return departments;
 	}
 	
-	public List<Department> findByOrganization(Long organizationId) {
-		return departments.stream().filter(a -> a.getOrganizationId().equals(organizationId)).collect(Collectors.toList());
+	public Set<Department> findByOrganization(Long organizationId) {
+		return departments.stream().filter(a -> a.getOrganizationId().equals(organizationId)).collect(Collectors.toSet());
 	}
 	
 }

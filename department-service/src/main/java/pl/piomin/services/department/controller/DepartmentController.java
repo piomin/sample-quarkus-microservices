@@ -13,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import java.util.List;
+import java.util.Set;
 
 @Path("/departments")
 public class DepartmentController {
@@ -40,23 +41,23 @@ public class DepartmentController {
 	}
 	
 	@GET
-	public List<Department> findAll() {
+	public Set<Department> findAll() {
 		LOGGER.info("Department find");
 		return repository.findAll();
 	}
 	
 	@Path("/organization/{organizationId}")
 	@GET
-	public List<Department> findByOrganization(@PathParam("organizationId") Long organizationId) {
+	public Set<Department> findByOrganization(@PathParam("organizationId") Long organizationId) {
 		LOGGER.info("Department find: organizationId={}", organizationId);
 		return repository.findByOrganization(organizationId);
 	}
 	
 	@Path("/organization/{organizationId}/with-employees")
 	@GET
-	public List<Department> findByOrganizationWithEmployees(@PathParam("organizationId") Long organizationId) {
+	public Set<Department> findByOrganizationWithEmployees(@PathParam("organizationId") Long organizationId) {
 		LOGGER.info("Department find: organizationId={}", organizationId);
-		List<Department> departments = repository.findByOrganization(organizationId);
+		Set<Department> departments = repository.findByOrganization(organizationId);
 		departments.forEach(d -> d.setEmployees(employeeClient.findByDepartment(d.getId())));
 		return departments;
 	}
