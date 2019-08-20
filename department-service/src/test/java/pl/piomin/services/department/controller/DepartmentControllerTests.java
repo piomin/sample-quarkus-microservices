@@ -45,4 +45,10 @@ public class DepartmentControllerTests {
                 .body("name", equalTo(department.getName()));
     }
 
+    @Test
+    public void testInvalidAdd() {
+        Department department = new Department(2L, "Test5");
+        given().contentType("application/json").body(department).when().post("/departments").then().statusCode(400);
+    }
+
 }

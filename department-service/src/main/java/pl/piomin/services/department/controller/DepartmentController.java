@@ -8,6 +8,7 @@ import pl.piomin.services.department.model.Department;
 import pl.piomin.services.department.repository.DepartmentRepository;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -27,7 +28,7 @@ public class DepartmentController {
 	
 	@Path("/")
 	@POST
-	public Department add(Department department) {
+	public Department add(@Valid Department department) {
 		LOGGER.info("Department add: {}", department);
 		return repository.add(department);
 	}
