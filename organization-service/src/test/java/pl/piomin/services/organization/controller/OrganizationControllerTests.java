@@ -48,4 +48,10 @@ public class OrganizationControllerTests {
                 .body("name", equalTo(organization.getName()));
     }
 
+    @Test
+    public void testInvalidAdd() {
+        Organization organization = new Organization();
+        given().contentType("application/json").body(organization).when().post("/organizations").then().statusCode(400);
+    }
+
 }

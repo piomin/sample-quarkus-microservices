@@ -1,12 +1,15 @@
 package pl.piomin.services.organization.model;
 
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Organization {
 
 	private Long id;
+	@NotBlank
 	private String name;
+	@NotBlank
 	private String address;
 	private List<Department> departments = new ArrayList<>();
 	private List<Employee> employees = new ArrayList<>();

@@ -9,6 +9,7 @@ import pl.piomin.services.organization.model.Organization;
 import pl.piomin.services.organization.repository.OrganizationRepository;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Set;
@@ -29,7 +30,7 @@ public class OrganizationController {
 	EmployeeClient employeeClient;
 	
 	@POST
-	public Organization add(Organization organization) {
+	public Organization add(@Valid Organization organization) {
 		LOGGER.info("Organization add: {}", organization);
 		return repository.add(organization);
 	}
