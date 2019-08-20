@@ -6,6 +6,7 @@ import pl.piomin.services.employee.model.Employee;
 import pl.piomin.services.employee.repository.EmployeeRepository;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -21,7 +22,7 @@ public class EmployeeController {
 	EmployeeRepository repository;
 	
 	@POST
-	public Employee add(Employee employee) {
+	public Employee add(@Valid Employee employee) {
 		LOGGER.info("Employee add: {}", employee);
 		return repository.add(employee);
 	}

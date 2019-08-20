@@ -47,4 +47,10 @@ public class EmployeeControllerTests {
                     .body("position", equalTo(employee.getPosition()));
     }
 
+    @Test
+    public void testInvalidAdd() {
+        Employee employee = new Employee();
+        given().contentType("application/json").body(employee).when().post("/employees").then().statusCode(400);
+    }
+
 }
