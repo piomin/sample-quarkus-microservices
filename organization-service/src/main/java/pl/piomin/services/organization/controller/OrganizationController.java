@@ -9,13 +9,12 @@ import pl.piomin.services.organization.model.Organization;
 import pl.piomin.services.organization.repository.OrganizationRepository;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import java.util.List;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.Set;
 
 @Path("/organizations")
+@Produces(MediaType.APPLICATION_JSON)
 public class OrganizationController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(OrganizationController.class);
@@ -36,7 +35,7 @@ public class OrganizationController {
 	}
 	
 	@GET
-	public List<Organization> findAll() {
+	public Set<Organization> findAll() {
 		LOGGER.info("Organization find");
 		return repository.findAll();
 	}
