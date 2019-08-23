@@ -14,14 +14,14 @@ import java.util.List;
 @RegisterRestClient
 public interface DepartmentClient {
 
-	@GET
-	@Path("/organization/{organizationId}")
-	@Produces(MediaType.APPLICATION_JSON)
-	List<Department> findByOrganization(@PathParam("organizationId") Long organizationId);
+    @GET
+    @Path("/organization/{organizationId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    List<Department> findByOrganization(@PathParam("organizationId") Long organizationId);
 
-	@GET
-	@Path("/organization/{organizationId}/with-employees")
-	@Produces(MediaType.APPLICATION_JSON)
-	List<Department> findByOrganizationWithEmployees(@PathParam("organizationId") Long organizationId);
-	
+    @GET
+    @Path("/organization/{organizationId}/with-employees")
+    @Produces(MediaType.APPLICATION_JSON)
+    List<Department> findByOrganizationWithEmployees(@PathParam("organizationId") Long organizationId);
+
 }

@@ -14,9 +14,9 @@ import java.util.List;
 @RegisterRestClient
 public interface EmployeeClient {
 
-	@GET
-	@Path("/department/{departmentId}")
-	@Produces(MediaType.APPLICATION_JSON)
-	List<Employee> findByDepartment(@PathParam("departmentId") Long departmentId);
-	
+    @GET
+    @Path("/department/{departmentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    List<Employee> findByDepartment(@PathParam("departmentId") Long departmentId);
+
 }

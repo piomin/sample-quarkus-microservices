@@ -8,46 +8,46 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Department {
 
-	private Long id;
-	private String name;
-	private List<Employee> employees = new ArrayList<>();
+    private Long id;
+    private String name;
+    private List<Employee> employees = new ArrayList<>();
 
-	public Department() {
-		
-	}
+    public Department() {
 
-	public Department(String name) {
-		super();
-		this.name = name;
-	}
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Department(String name) {
+        super();
+        this.name = name;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public List<Employee> getEmployees() {
-		return employees;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setEmployees(List<Employee> employees) {
-		this.employees = employees;
-	}
+    public List<Employee> getEmployees() {
+        return employees;
+    }
 
-	@Override
-	public String toString() {
-		return "Department [id=" + id + ", name=" + name + "]";
-	}
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
+
+    @Override
+    public String toString() {
+        return "Department [id=" + id + ", name=" + name + "]";
+    }
 
 }
