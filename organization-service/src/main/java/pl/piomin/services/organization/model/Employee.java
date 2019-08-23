@@ -1,5 +1,8 @@
 package pl.piomin.services.organization.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Employee {
 
 	private Long id;
