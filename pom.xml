@@ -6,10 +6,41 @@
 	<version>1.1</version>
 	<packaging>pom</packaging>
 
+	<properties>
+		<sonar.projectKey>piomin_sample-quarkus-microservices</sonar.projectKey>
+		<sonar.organization>piomin</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<java.version>11</java.version>
+		<surefire-plugin.version>3.0.0-M8</surefire-plugin.version>
+	</properties>
+
 	<modules>
 		<module>employee-service</module>
 		<module>department-service</module>
 		<module>organization-service</module>
 	</modules>
-	
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.8</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

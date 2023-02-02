@@ -47,7 +47,7 @@ public class DepartmentControllerTests {
 
     @Test
     public void testInvalidAdd() {
-        Department department = new Department(2L, "Test5");
+        Department department = new Department(null, "Test5");
         given().contentType("application/json").body(department).when().post("/departments").then().statusCode(400);
     }
 

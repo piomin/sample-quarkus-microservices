@@ -16,6 +16,7 @@ public class EmployeeRepository {
     public EmployeeRepository() {
         add(new Employee(1L, 1L, "John Smith", 30, "Developer"));
         add(new Employee(1L, 1L, "Paul Walker", 40, "Architect"));
+        add(new Employee(1L, 1L, "Monica Hamilton", 50, "Director"));
     }
 
     public Employee add(Employee employee) {
@@ -25,11 +26,10 @@ public class EmployeeRepository {
     }
 
     public Employee findById(Long id) {
-        Optional<Employee> employee = employees.stream().filter(a -> a.getId().equals(id)).findFirst();
-        if (employee.isPresent())
-            return employee.get();
-        else
-            return null;
+        return employees.stream()
+                .filter(a -> a.getId().equals(id))
+                .findFirst()
+                .orElseThrow();
     }
 
     public Set<Employee> findAll() {

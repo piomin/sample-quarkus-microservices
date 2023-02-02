@@ -2,15 +2,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>pl.piomin.services</groupId>
+        <artifactId>sample-quarkus-microservices</artifactId>
+        <version>1.1</version>
+    </parent>
+
     <artifactId>employee-service</artifactId>
     <groupId>pl.piomin.services</groupId>
-    <version>1.1</version>
+    <version>1.2</version>
 
     <properties>
-        <quarkus.version>1.7.0.Final</quarkus.version>
+        <quarkus.version>2.5.4.Final</quarkus.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <sonar.moduleKey>${artifactId}</sonar.moduleKey>
     </properties>
 
     <dependencyManagement>
@@ -38,6 +45,10 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire-plugin.version}</version>
             </plugin>
         </plugins>
     </build>

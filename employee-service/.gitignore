@@ -2,3 +2,7 @@
 /.classpath
 /.project
 /.settings/
+
+
+# Ignore DevSpace cache and log folder
+.devspace/
