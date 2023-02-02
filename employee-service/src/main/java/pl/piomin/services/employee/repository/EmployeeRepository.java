@@ -11,7 +11,7 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class EmployeeRepository {
 
-    private Set<Employee> employees = new HashSet<>();
+    private final Set<Employee> employees = new HashSet<>();
 
     public EmployeeRepository() {
         add(new Employee(1L, 1L, "John Smith", 30, "Developer"));

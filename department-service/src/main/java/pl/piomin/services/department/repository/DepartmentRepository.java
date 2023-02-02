@@ -4,14 +4,13 @@ import pl.piomin.services.department.model.Department;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class DepartmentRepository {
 
-    private Set<Department> departments = new HashSet<>();
+    private final Set<Department> departments = new HashSet<>();
 
     public DepartmentRepository() {
         add(new Department(1L, "Test1"));
@@ -26,11 +25,10 @@ public class DepartmentRepository {
     }
 
     public Department findById(Long id) {
-        Optional<Department> department = departments.stream().filter(a -> a.getId().equals(id)).findFirst();
-        if (department.isPresent())
-            return department.get();
-        else
-            return null;
+        return departments.stream()
+                .filter(a -> a.getId().equals(id))
+                .findFirst()
+                .orElseThrow();
     }
 
     public Set<Department> findAll() {
