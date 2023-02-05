@@ -31,6 +31,6 @@ workflows:
 #          executor: jdk
       - maven/test:
           executor: machine
-          command: '-X verify'
+          command: 'verify'
       - build:
           context: SonarCloud
