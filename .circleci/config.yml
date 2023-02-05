@@ -27,9 +27,10 @@ orbs:
 workflows:
   maven_test:
     jobs:
+#      - maven/test:
+#          executor: jdk
       - maven/test:
-          executor: jdk
-      - maven/verify:
           executor: machine
+          command: '-X verify'
       - build:
           context: SonarCloud
