@@ -1,19 +1,16 @@
 version: 2.1
 
 jobs:
-  build:
+  analyze:
     docker:
       - image: 'cimg/openjdk:17.0'
     steps:
       - checkout
       - run:
           name: Analyze on SonarCloud
-          command: mvn package sonar:sonar
+          command: mvn package sonar:sonar -DskipITs
 
 executors:
-  jdk:
-    docker:
-      - image: 'cimg/openjdk:17.0'
   machine:
     machine:
       image: ubuntu-2204:2022.04.2
@@ -27,10 +24,8 @@ orbs:
 workflows:
   maven_test:
     jobs:
-#      - maven/test:
-#          executor: jdk
       - maven/test:
           executor: machine
           command: 'verify'
-      - build:
+      - analyze:
           context: SonarCloud
