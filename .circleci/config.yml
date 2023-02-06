@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: Analyze on SonarCloud
-          command: mvn package sonar:sonar -DskipITs
+          command: mvn package sonar:sonar -DskipITs -Dquarkus.container-image.build=false
 
 executors:
   machine:
