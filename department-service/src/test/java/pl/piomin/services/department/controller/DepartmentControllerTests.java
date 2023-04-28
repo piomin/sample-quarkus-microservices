@@ -14,7 +14,7 @@ import pl.piomin.services.department.model.Department;
 import pl.piomin.services.department.model.Employee;
 import pl.piomin.services.department.repository.DepartmentRepository;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
