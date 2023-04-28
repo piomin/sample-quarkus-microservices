@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory;
 import pl.piomin.services.employee.model.Employee;
 import pl.piomin.services.employee.repository.EmployeeRepository;
 
-import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import java.util.Set;
 
 @Path("/employees")
