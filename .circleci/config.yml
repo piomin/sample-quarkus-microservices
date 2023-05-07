@@ -29,6 +29,6 @@ workflows:
           command: 'verify'
           pre-steps:
             - run:
-                command: docker compose up
+                command: ls -la
       - analyze:
           context: SonarCloud
