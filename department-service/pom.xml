@@ -45,14 +45,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-plugin.version}</version>
             </plugin>
-            <plugin>
-                <groupId>au.com.dius.pact.provider</groupId>
-                <artifactId>maven</artifactId>
-                <version>4.1.11</version>
-                <configuration>
-                    <pactBrokerUrl>http://localhost:9080</pactBrokerUrl>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
