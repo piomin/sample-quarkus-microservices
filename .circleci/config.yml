@@ -13,7 +13,8 @@ jobs:
           command: docker-compose up -d
       - maven/with_cache:
           steps:
-            - package sonar:sonar -DskipITs -Dquarkus.container-image.build=false
+            - run:
+                command: package sonar:sonar -DskipITs -Dquarkus.container-image.build=false
 #      - run:
 #          name: Analyze on SonarCloud
 #          command: mvn package sonar:sonar -DskipITs -Dquarkus.container-image.build=false
