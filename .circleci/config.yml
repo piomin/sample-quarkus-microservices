@@ -5,20 +5,21 @@ jobs:
     executor:
       name: docker/machine
       image: ubuntu-2204:2022.04.2
-#    docker:
-#      - image: 'cimg/openjdk:17.0'
     steps:
       - checkout
       - docker/install-docker-compose
       - run:
+          name: Run Pact Broker
           command: docker-compose up -d
       - maven/with_cache:
           steps:
             - run:
+                name: Run Tests
                 command: mvn package pact:publish -Dquarkus.container-image.build=false
       - maven/with_cache:
           steps:
             - run:
+                name: Sonar Analysis
                 command: mvn package sonar:sonar -DskipTests -Dquarkus.container-image.build=false
 
 executors:
@@ -36,8 +37,5 @@ orbs:
 workflows:
   maven_test:
     jobs:
-#      - maven/test:
-#          executor: machine
-#          command: 'verify'
       - analyze:
           context: SonarCloud
