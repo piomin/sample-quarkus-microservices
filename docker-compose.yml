@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: pact
+      POSTGRES_PASSWORD: pact123
+      POSTGRES_DB: pact
+    ports:
+      - "5432"
+  pact-broker:
+    container_name: pact-broker
+    image: dius/pact-broker
+    ports:
+      - "9080:80"
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    environment:
+      PACT_BROKER_DATABASE_USERNAME: pact
+      PACT_BROKER_DATABASE_PASSWORD: pact123
+      PACT_BROKER_DATABASE_HOST: postgres
+      PACT_BROKER_DATABASE_NAME: pact

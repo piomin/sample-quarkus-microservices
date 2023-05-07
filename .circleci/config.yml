@@ -27,5 +27,8 @@ workflows:
       - maven/test:
           executor: machine
           command: 'verify'
+          pre-steps:
+            - run:
+                command: docker-compose up
       - analyze:
           context: SonarCloud
