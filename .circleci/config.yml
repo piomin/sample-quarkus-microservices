@@ -2,10 +2,13 @@ version: 2.1
 
 jobs:
   analyze:
+    executor:
+      name: maven/default
 #    docker:
 #      - image: 'cimg/openjdk:17.0'
     steps:
       - checkout
+      - docker/install-docker-compose
       - run:
           name: Analyze on SonarCloud
           command: mvn package sonar:sonar -DskipITs -Dquarkus.container-image.build=false
@@ -20,6 +23,7 @@ executors:
 
 orbs:
   maven: circleci/maven@1.4.1
+  docker: circleci/docker@2.2.0
 
 workflows:
   maven_test:
@@ -29,4 +33,3 @@ workflows:
 #          command: 'verify'
       - analyze:
           context: SonarCloud
-          executor: machine
