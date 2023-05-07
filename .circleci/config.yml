@@ -2,8 +2,8 @@ version: 2.1
 
 jobs:
   analyze:
-    docker:
-      - image: 'cimg/openjdk:17.0'
+#    docker:
+#      - image: 'cimg/openjdk:17.0'
     steps:
       - checkout
       - run:
@@ -24,11 +24,9 @@ orbs:
 workflows:
   maven_test:
     jobs:
-      - maven/test:
-          executor: machine
-          command: 'verify'
-          steps:
-            - run:
-                command: ls -la
+#      - maven/test:
+#          executor: machine
+#          command: 'verify'
       - analyze:
           context: SonarCloud
+          executor: machine
