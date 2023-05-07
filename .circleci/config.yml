@@ -27,7 +27,7 @@ workflows:
       - maven/test:
           executor: machine
           command: 'verify'
-          pre-steps:
+          steps:
             - run:
                 command: ls -la
       - analyze:
