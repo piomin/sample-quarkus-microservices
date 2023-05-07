@@ -19,13 +19,21 @@
 	</properties>
 
 	<modules>
-		<module>employee-service</module>
 		<module>department-service</module>
+		<module>employee-service</module>
 		<module>organization-service</module>
 	</modules>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>au.com.dius.pact.provider</groupId>
+				<artifactId>maven</artifactId>
+				<version>4.1.11</version>
+				<configuration>
+					<pactBrokerUrl>http://localhost:9080</pactBrokerUrl>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>

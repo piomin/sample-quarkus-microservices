@@ -2,13 +2,25 @@ version: 2.1
 
 jobs:
   analyze:
-    docker:
-      - image: 'cimg/openjdk:17.0'
+    executor:
+      name: docker/machine
+      image: ubuntu-2204:2022.04.2
     steps:
       - checkout
+      - docker/install-docker-compose
       - run:
-          name: Analyze on SonarCloud
-          command: mvn package sonar:sonar -DskipITs -Dquarkus.container-image.build=false
+          name: Run Pact Broker
+          command: docker-compose up -d
+      - maven/with_cache:
+          steps:
+            - run:
+                name: Run Tests
+                command: mvn package pact:publish -Dquarkus.container-image.build=false
+      - maven/with_cache:
+          steps:
+            - run:
+                name: Sonar Analysis
+                command: mvn package sonar:sonar -DskipTests -Dquarkus.container-image.build=false
 
 executors:
   machine:
@@ -20,12 +32,10 @@ executors:
 
 orbs:
   maven: circleci/maven@1.4.1
+  docker: circleci/docker@2.2.0
 
 workflows:
   maven_test:
     jobs:
-      - maven/test:
-          executor: machine
-          command: 'verify'
       - analyze:
           context: SonarCloud
