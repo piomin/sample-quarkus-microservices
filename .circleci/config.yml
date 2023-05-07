@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   analyze:
     executor:
-      name: maven/default
+      name: docker/machine
 #    docker:
 #      - image: 'cimg/openjdk:17.0'
     steps:
