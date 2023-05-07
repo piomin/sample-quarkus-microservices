@@ -10,10 +10,11 @@ jobs:
       - checkout
       - docker/install-docker-compose
       - run:
-          command: docker-compose up
-      - run:
-          name: Analyze on SonarCloud
-          command: mvn package sonar:sonar -DskipITs -Dquarkus.container-image.build=false
+          command: docker-compose up -d
+      - maven/test
+#      - run:
+#          name: Analyze on SonarCloud
+#          command: mvn package sonar:sonar -DskipITs -Dquarkus.container-image.build=false
 
 executors:
   machine:
