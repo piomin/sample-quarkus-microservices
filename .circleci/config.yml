@@ -4,6 +4,7 @@ jobs:
   analyze:
     executor:
       name: docker/machine
+      image: ubuntu-2204:2022.04.2
 #    docker:
 #      - image: 'cimg/openjdk:17.0'
     steps:
@@ -15,9 +16,10 @@ jobs:
           steps:
             - run:
                 command: mvn package pact:publish -Dquarkus.container-image.build=false
-#      - run:
-#          name: Analyze on SonarCloud
-#          command: mvn package sonar:sonar -DskipITs -Dquarkus.container-image.build=false
+      - maven/with_cache:
+          steps:
+            - run:
+                command: mvn package sonar:sonar -DskipTests -Dquarkus.container-image.build=false
 
 executors:
   machine:
