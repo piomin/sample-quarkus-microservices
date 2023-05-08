@@ -9,7 +9,6 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
-import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
 import io.quarkus.test.junit.QuarkusTest;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
 @ExtendWith(PactConsumerTestExt.class)
-@PactBroker(url = "http://localhost:9080")
 public class EmployeeClientContractTests {
 
     @Pact(provider = "employee-service", consumer = "department-service")
