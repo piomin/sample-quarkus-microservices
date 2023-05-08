@@ -11,9 +11,9 @@ services:
       - "5432"
   pact-broker:
     container_name: pact-broker
-    image: dius/pact-broker
+    image: pactfoundation/pact-broker
     ports:
-      - "9080:80"
+      - "9292:9292"
     depends_on:
       - postgres
     links:
@@ -23,3 +23,20 @@ services:
       PACT_BROKER_DATABASE_PASSWORD: pact123
       PACT_BROKER_DATABASE_HOST: postgres
       PACT_BROKER_DATABASE_NAME: pact
+  employee:
+    image: quarkus/employee-service:1.2
+    ports:
+      - "8080"
+  department:
+    image: quarkus/department-service:1.1
+    ports:
+      - "8080"
+    links:
+      - employee
+  organization:
+    image: quarkus/organization-service:1.1
+    ports:
+      - "8080"
+    links:
+      - employee
+      - department
