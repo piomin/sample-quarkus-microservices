@@ -8,10 +8,13 @@ import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
 import au.com.dius.pact.provider.junitsupport.target.TestTarget;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.mockito.InjectMock;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
+import pl.piomin.services.department.client.EmployeeClient;
 
 @QuarkusTest
 @Provider("department-service")
@@ -39,6 +42,15 @@ public class DepartmentContractTests {
 
     @State("findByOrganization")
     void findByOrganization() {
+
+    }
+
+    @RestClient
+    @InjectMock
+    EmployeeClient employeeClient;
+
+    @State("findByOrganizationWithEmployees")
+    void findByOrganizationWithEmployees() {
 
     }
 

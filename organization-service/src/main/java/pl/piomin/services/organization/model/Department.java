@@ -10,7 +10,7 @@ public class Department {
 
     private Long id;
     private String name;
-    private List<Employee> employees = new ArrayList<>();
+    private List<Employee> employees;
 
     public Department() {
 

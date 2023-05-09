@@ -12,9 +12,6 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
-import pl.piomin.services.employee.repository.EmployeeRepository;
-
-import javax.inject.Inject;
 
 @QuarkusTest
 @Provider("employee-service")
@@ -23,9 +20,7 @@ public class EmployeeContractTests {
 
     @ConfigProperty(name = "quarkus.http.test-port")
     int quarkusPort;
-
-    @Inject
-    EmployeeRepository repository;
+    
     @TestTarget
     HttpTestTarget target = new HttpTestTarget("localhost", this.quarkusPort);
 
