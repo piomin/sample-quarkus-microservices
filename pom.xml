@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>pl.piomin.services</groupId>
+	<groupId>com.example.ms.services</groupId>
 	<artifactId>sample-quarkus-microservices</artifactId>
 	<version>1.1</version>
 	<packaging>pom</packaging>
@@ -23,36 +23,4 @@
 		<module>department-service</module>
 		<module>employee-service</module>
 	</modules>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>au.com.dius.pact.provider</groupId>
-				<artifactId>maven</artifactId>
-				<version>4.6.0</version>
-				<configuration>
-					<pactBrokerUrl>http://localhost:9292</pactBrokerUrl>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.10</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>pl.piomin.services</groupId>
+        <groupId>com.example.ms.services</groupId>
         <artifactId>sample-quarkus-microservices</artifactId>
         <version>1.1</version>
     </parent>
@@ -88,28 +88,7 @@
             <groupId>org.instancio</groupId>
             <artifactId>instancio-junit</artifactId>
             <version>2.15.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkiverse.pact</groupId>
-            <artifactId>quarkus-pact-consumer</artifactId>
-            <version>1.0.0.Final</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkiverse.pact</groupId>
-            <artifactId>quarkus-pact-provider</artifactId>
-            <version>1.0.0.Final</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents.client5</groupId>
-            <artifactId>httpclient5-fluent</artifactId>
-            <version>5.2.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-container-image-jib</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
