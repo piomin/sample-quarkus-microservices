@@ -23,6 +23,7 @@ public class EmployeeController {
     @POST
     public Employee add(@Valid Employee employee) {
         LOGGER.info("Employee add: {}", employee);
+        LOGGER.info("ANCORA add: {}", employee);
         return repository.add(employee);
     }
 
