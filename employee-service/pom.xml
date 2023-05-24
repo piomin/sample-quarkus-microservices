@@ -105,7 +105,7 @@
         <dependency>
             <groupId>io.quarkiverse.pact</groupId>
             <artifactId>quarkus-pact-provider</artifactId>
-            <version>1.0.0.Final</version>
+            <version>1.0.1.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
