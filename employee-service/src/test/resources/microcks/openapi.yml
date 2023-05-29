@@ -1,0 +1,171 @@
+---
+openapi: 3.0.3
+info:
+  title: employee-service API
+  version: "1.2"
+paths:
+  /employees:
+    get:
+      tags:
+        - Employee Controller
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+              examples:
+                all_persons:
+                  value: |-
+                    [
+                       {"id": 1, "name": "Test User 1", "age": 20, "organizationId": 1, "departmentId": 1, "position": "developer"},
+                       {"id": 2, "name": "Test User 2", "age": 30, "organizationId": 1, "departmentId": 2, "position": "architect"},
+                       {"id": 3, "name": "Test User 3", "age": 40, "organizationId": 2, "departmentId": 3, "position": "developer"},
+                    ]
+    post:
+      tags:
+        - Employee Controller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+            examples:
+              add_employee:
+                summary: Hire a new employee
+                description: Should return 201
+                value: '{"name": "Test User 4", "age": 50, "organizationId": 2, "departmentId": 3, "position": "tester"}'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+              examples:
+                add_employee:
+                  value: |-
+                    {"id": 4, "name": "Test User 4", "age": 50, "organizationId": 2, "departmentId": 3, "position": "tester"}
+  /employees/department/{departmentId}:
+    get:
+      tags:
+        - Employee Controller
+      parameters:
+        - name: departmentId
+          in: path
+          required: true
+          schema:
+            format: int64
+            type: integer
+          examples:
+            find_by_dep_1:
+              summary: Main id of department
+              value: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+              examples:
+                find_by_dep_1:
+                  value: |-
+                    [
+                      { "id": 1, "name": "Test User 1", "age": 20, "organizationId": 1, "departmentId": 1, "position": "developer" }
+                    ]
+  /employees/organization/{organizationId}:
+    get:
+      tags:
+        - Employee Controller
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            format: int64
+            type: integer
+          examples:
+            find_by_org_1:
+              summary: Main id of organization
+              value: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+              examples:
+                find_by_org_1:
+                  value: |-
+                    [
+                      { "id": 1, "name": "Test User 1", "age": 20, "organizationId": 1, "departmentId": 1, "position": "developer" },
+                      { "id": 2, "name": "Test User 2", "age": 30, "organizationId": 1, "departmentId": 2, "position": "architect" }
+                    ]
+  /employees/{id}:
+    get:
+      tags:
+        - Employee Controller
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            format: int64
+            type: integer
+          examples:
+            find_1:
+              summary: Main id of employee
+              value: 1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+              examples:
+                find_1:
+                  value: |-
+                    {"id": 1, "name": "Test User 1", "age": 20, "organizationId": 1, "departmentId": 1, "position": "developer"}
+components:
+  schemas:
+    Employee:
+      required:
+        - organizationId
+        - departmentId
+        - name
+        - position
+      type: object
+      properties:
+        id:
+          format: int64
+          type: integer
+        organizationId:
+          format: int64
+          type: integer
+        departmentId:
+          format: int64
+          type: integer
+        name:
+          pattern: \S
+          type: string
+        age:
+          format: int32
+          maximum: 100
+          minimum: 1
+          type: integer
+        position:
+          pattern: \S
+          type: string
