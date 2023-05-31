@@ -11,22 +11,30 @@
 		<sonar.organization>piomin</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<java.version>17</java.version>
-		<surefire-plugin.version>3.0.0</surefire-plugin.version>
 		<quarkus.version>3.0.4.Final</quarkus.version>
 		<quarkus.plugin.version>3.1.0.Final</quarkus.plugin.version>
+		<surefire-plugin.version>3.1.0</surefire-plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 
 	<modules>
-		<module>employee-service</module>
-		<module>department-service</module>
 		<module>organization-service</module>
+		<module>department-service</module>
+		<module>employee-service</module>
 	</modules>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>au.com.dius.pact.provider</groupId>
+				<artifactId>maven</artifactId>
+				<version>4.6.0</version>
+				<configuration>
+					<pactBrokerUrl>http://localhost:9292</pactBrokerUrl>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>

@@ -13,7 +13,7 @@ import java.util.List;
 
 @ApplicationScoped
 @Path("/employees")
-@RegisterRestClient
+@RegisterRestClient(configKey = "employee")
 public interface EmployeeClient {
 
     @GET
