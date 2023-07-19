@@ -12,7 +12,7 @@ jobs:
           steps:
             - run:
                 name: Build Images
-                command: mvn package -DskipTests -Dquarkus.container-image.build=true
+                command: QUARKUS_JIB_BASE_JVM_IMAGE=registry.access.redhat.com/ubi8/openjdk-17-runtime:latest mvn package -DskipTests -Dquarkus.container-image.build=true
       - run:
           name: Run Pact Broker
           command: docker-compose up -d
