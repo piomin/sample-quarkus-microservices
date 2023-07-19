@@ -4,7 +4,6 @@ import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pl.piomin.services.employee.model.Employee;
 

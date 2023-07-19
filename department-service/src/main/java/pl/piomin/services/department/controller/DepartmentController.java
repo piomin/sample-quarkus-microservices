@@ -7,10 +7,10 @@ import pl.piomin.services.department.client.EmployeeClient;
 import pl.piomin.services.department.model.Department;
 import pl.piomin.services.department.repository.DepartmentRepository;
 
-import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import java.util.Set;
 
 @Path("/departments")

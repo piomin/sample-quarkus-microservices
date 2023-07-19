@@ -2,7 +2,7 @@ package pl.piomin.services.department.repository;
 
 import pl.piomin.services.department.model.Department;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
