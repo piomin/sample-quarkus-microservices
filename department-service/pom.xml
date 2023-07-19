@@ -83,7 +83,7 @@
         <dependency>
             <groupId>org.instancio</groupId>
             <artifactId>instancio-junit</artifactId>
-            <version>2.15.0</version>
+            <version>2.16.1</version>
         </dependency>
         <dependency>
             <groupId>io.quarkiverse.pact</groupId>
@@ -136,7 +136,7 @@
                     </plugin>
                     <plugin>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>3.1.2</version>
                         <executions>
                             <execution>
                                 <goals>
