@@ -23,16 +23,31 @@ services:
       PACT_BROKER_DATABASE_PASSWORD: pact123
       PACT_BROKER_DATABASE_HOST: postgres
       PACT_BROKER_DATABASE_NAME: pact
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+      - "4317:4317"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
   employee:
     image: quarkus/employee-service:1.2
     ports:
       - "8080"
+    links:
+      - jaeger
+    environment:
+      - QUARKUS_OPENTELEMETRY_TRACER_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317/
   department:
     image: quarkus/department-service:1.1
     ports:
       - "8080"
     links:
       - employee
+      - jaeger
+    environment:
+      - QUARKUS_OPENTELEMETRY_TRACER_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317/
   organization:
     image: quarkus/organization-service:1.1
     ports:
@@ -40,3 +55,6 @@ services:
     links:
       - employee
       - department
+      - jaeger
+    environment:
+      - QUARKUS_OPENTELEMETRY_TRACER_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317/
