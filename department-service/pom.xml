@@ -192,6 +192,25 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>openshift</id>
+            <activation>
+                <property>
+                    <name>openshift</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-openshift</artifactId>
+                </dependency>
+            </dependencies>
+            <properties>
+                <quarkus.kubernetes.deploy>true</quarkus.kubernetes.deploy>
+                <quarkus.profile>openshift</quarkus.profile>
+                <quarkus.container-image.builder>openshift</quarkus.container-image.builder>
+            </properties>
+        </profile>
     </profiles>
 
 </project>
