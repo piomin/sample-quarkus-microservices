@@ -37,7 +37,7 @@ executors:
 
 orbs:
   maven: circleci/maven@1.4.1
-  docker: circleci/docker@2.4.0
+  docker: circleci/docker@2.5.0
 
 workflows:
   maven_test:
