@@ -4,9 +4,18 @@ jobs:
   analyze:
     executor:
       name: docker/machine
-      image: ubuntu-2204:2022.04.2
+      image: ubuntu-2204:2024.01.2
     steps:
       - checkout
+      - run:
+          name: Install OpenJDK 21
+          command: |
+            java -version
+            sudo apt-get update && sudo apt-get install openjdk-21-jdk
+            sudo update-alternatives --set java /usr/lib/jvm/java-21-openjdk-amd64/bin/java
+            sudo update-alternatives --set javac /usr/lib/jvm/java-21-openjdk-amd64/bin/javac
+            java -version
+            export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
       - docker/install-docker-compose
       - maven/with_cache:
           steps:
@@ -30,14 +39,14 @@ jobs:
 executors:
   machine:
     machine:
-      image: ubuntu-2204:2022.04.2
+      image: ubuntu-2204:2024.01.2
     environment:
       architecture: "amd64"
       platform: "linux/amd64"
 
 orbs:
   maven: circleci/maven@1.4.1
-  docker: circleci/docker@2.2.0
+  docker: circleci/docker@2.6.0
 
 workflows:
   maven_test:
