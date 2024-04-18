@@ -7,7 +7,7 @@ import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
-import au.com.dius.pact.core.model.RequestResponsePact;
+import au.com.dius.pact.core.model.V4Pact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import io.quarkus.test.junit.QuarkusTest;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class EmployeeClientContractTests {
 
     @Pact(provider = "employee-service", consumer = "organization-service")
-    public RequestResponsePact callFindDepartment(PactDslWithProvider builder) {
+    public V4Pact callFindDepartment(PactDslWithProvider builder) {
         DslPart body = PactDslJsonArray.arrayEachLike()
                 .integerType("id")
                 .stringType("name")
@@ -42,11 +42,11 @@ public class EmployeeClientContractTests {
                    .willRespondWith()
                     .status(200)
                     .body(body)
-                .toPact();
+                .toPact(V4Pact.class);
     }
 
     @Test
-    @PactTestFor(providerName = "employee-service", pactVersion = PactSpecVersion.V3)
+    @PactTestFor(providerName = "employee-service", pactVersion = PactSpecVersion.V4)
     public void verifyFindByOrganizationPact(MockServer mockServer) {
         System.out.println(mockServer.getUrl());
         EmployeeClient client = RestClientBuilder.newBuilder()
