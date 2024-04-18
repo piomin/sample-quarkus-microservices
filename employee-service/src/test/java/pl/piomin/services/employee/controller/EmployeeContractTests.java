@@ -28,7 +28,7 @@ public class EmployeeContractTests {
     @ExtendWith(PactVerificationInvocationContextProvider.class)
     void pactVerificationTestTemplate(PactVerificationContext context) {
         context.verifyInteraction();
-        System.setProperty("pact.provider.version", "1.2");
+        System.setProperty("pact.provider.version", "1.3");
         System.setProperty("pact.verifier.publishResults", "true");
     }
 
