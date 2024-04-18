@@ -10,12 +10,12 @@
 		<sonar.projectKey>piomin_sample-quarkus-microservices</sonar.projectKey>
 		<sonar.organization>piomin</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<java.version>17</java.version>
+		<java.version>21</java.version>
 		<surefire-plugin.version>3.2.5</surefire-plugin.version>
 		<quarkus.version>2.16.12.Final</quarkus.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
 	</properties>
 
 	<modules>

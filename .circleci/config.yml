@@ -4,7 +4,7 @@ jobs:
   analyze:
     executor:
       name: docker/machine
-      image: ubuntu-2204:2022.04.2
+      image: ubuntu-2204:2024.01.2
     steps:
       - checkout
       - docker/install-docker-compose
@@ -30,7 +30,7 @@ jobs:
 executors:
   machine:
     machine:
-      image: ubuntu-2204:2022.04.2
+      image: ubuntu-2204:2024.01.2
     environment:
       architecture: "amd64"
       platform: "linux/amd64"
