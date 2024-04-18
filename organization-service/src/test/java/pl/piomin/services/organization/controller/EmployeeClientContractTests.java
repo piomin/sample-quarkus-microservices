@@ -1,20 +1,25 @@
 package pl.piomin.services.organization.controller;
 
-import au.com.dius.pact.consumer.MockServer;
 import au.com.dius.pact.consumer.dsl.DslPart;
 import au.com.dius.pact.consumer.dsl.PactDslJsonArray;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
+import au.com.dius.pact.consumer.junit.MockServerConfig;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.V4Pact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import pl.piomin.services.organization.client.EmployeeClient;
 import pl.piomin.services.organization.model.Employee;
+import pl.piomin.services.organization.wiremock.PactConsumerTestBase;
+import pl.piomin.services.organization.wiremock.PactMockServer;
+import pl.piomin.services.organization.wiremock.PactMockServerWorkaround;
+import pl.piomin.services.organization.wiremock.WireMockQuarkusTestResource;
 
 import java.net.URI;
 import java.util.List;
@@ -24,7 +29,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
 @ExtendWith(PactConsumerTestExt.class)
-public class EmployeeClientContractTests {
+@ExtendWith(PactMockServerWorkaround.class)
+@MockServerConfig(port = "0")
+@QuarkusTestResource(WireMockQuarkusTestResource.class)
+public class EmployeeClientContractTests extends PactConsumerTestBase {
 
     @Pact(provider = "employee-service", consumer = "organization-service")
     public V4Pact callFindDepartment(PactDslWithProvider builder) {
@@ -47,7 +55,7 @@ public class EmployeeClientContractTests {
 
     @Test
     @PactTestFor(providerName = "employee-service", pactVersion = PactSpecVersion.V4)
-    public void verifyFindByOrganizationPact(MockServer mockServer) {
+    public void verifyFindByOrganizationPact(final PactMockServer mockServer) {
         System.out.println(mockServer.getUrl());
         EmployeeClient client = RestClientBuilder.newBuilder()
                 .baseUri(URI.create(mockServer.getUrl()))
