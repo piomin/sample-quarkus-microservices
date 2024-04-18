@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 import pl.piomin.services.employee.model.Employee;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class EmployeeRepository {
