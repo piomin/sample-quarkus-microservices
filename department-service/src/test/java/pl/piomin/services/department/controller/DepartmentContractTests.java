@@ -31,7 +31,7 @@ public class DepartmentContractTests {
     @ExtendWith(PactVerificationInvocationContextProvider.class)
     void pactVerificationTestTemplate(PactVerificationContext context) {
         context.verifyInteraction();
-        System.setProperty("pact.provider.version", "1.1");
+        System.setProperty("pact.provider.version", "1.3");
         System.setProperty("pact.verifier.publishResults", "true");
     }
 
