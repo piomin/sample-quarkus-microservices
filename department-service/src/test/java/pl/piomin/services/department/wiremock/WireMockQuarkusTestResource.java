@@ -42,7 +42,7 @@ public class WireMockQuarkusTestResource implements QuarkusTestResourceLifecycle
     }
 
     private static Notifier createNotifier(final boolean verbose) {
-        final String prefix = [WireMock] ";
+        final String prefix = "[WireMock] ";
         return new Notifier() {
 
             @Override
