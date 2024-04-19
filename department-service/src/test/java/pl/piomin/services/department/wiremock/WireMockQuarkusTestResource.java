@@ -24,8 +24,6 @@ public class WireMockQuarkusTestResource implements QuarkusTestResourceLifecycle
                 .notifier(createNotifier(true)));
         this.wireMockServer.start();
 
-        result.put("quarkus.rest-client.farmer-api.url", wireMockServer.baseUrl()/* + "/someBasePath"*/);
-
         return result;
     }
 
@@ -44,8 +42,7 @@ public class WireMockQuarkusTestResource implements QuarkusTestResourceLifecycle
     }
 
     private static Notifier createNotifier(final boolean verbose) {
-        // I like the emojis, It is easier for me to distinguish the different logs.
-        final String prefix = "\uD83C\uDF44 [WireMock] ";
+        final String prefix = [WireMock] ";
         return new Notifier() {
 
             @Override
