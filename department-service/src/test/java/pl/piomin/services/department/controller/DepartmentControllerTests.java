@@ -1,7 +1,7 @@
 package pl.piomin.services.department.controller;
 
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.junit.mockito.InjectMock;
+import io.quarkus.test.InjectMock;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.MethodOrderer;
