@@ -7,7 +7,7 @@ jobs:
       image: ubuntu-2204:current
     steps:
       - checkout
-      - docker/install-docker-compose
+      - docker/install_docker_tools
       - maven/with_cache:
           steps:
             - run:
