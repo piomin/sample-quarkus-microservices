@@ -3,8 +3,8 @@ version: 2.1
 jobs:
   analyze:
     executor:
-      name: docker/machine
-      image: ubuntu-2204:current
+      name: docker/docker
+      tag: '3.6'
     steps:
       - checkout
       - docker/install_docker_tools
