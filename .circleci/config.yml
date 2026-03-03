@@ -2,6 +2,19 @@ version: 2.1
 
 jobs:
   analyze:
+    docker:
+      - image: 'cimg/openjdk:25.0.1'
+    steps:
+      - checkout
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--filter=blob:none'
+      - run:
+          name: "Git fetch"
+          command: git fetch --no-filter --refetch
+      - run:
+          name: Analyze on SonarCloud
+          command: mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -DskipTests -Dquarkus.container-image.build=false
+  build:
     executor:
       name: docker/machine
       image: ubuntu-2204:current
@@ -21,11 +34,6 @@ jobs:
             - run:
                 name: Run Tests
                 command: mvn package pact:publish -Dquarkus.container-image.build=false
-      - maven/with_cache:
-          steps:
-            - run:
-                name: Sonar Analysis
-                command: mvn package sonar:sonar -DskipTests -Dquarkus.container-image.build=false
 
 executors:
   machine:
@@ -38,9 +46,11 @@ executors:
 orbs:
   maven: circleci/maven@2.1.1
   docker: circleci/docker@3.0.1
+  git-shallow-clone: guitarrapc/git-shallow-clone@2.8.0
 
 workflows:
   maven_test:
     jobs:
+      - build
       - analyze:
           context: SonarCloud
