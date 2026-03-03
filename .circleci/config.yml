@@ -3,11 +3,11 @@ version: 2.1
 jobs:
   analyze:
     executor:
-      name: docker/machine
-      image: ubuntu-2204:current
+      name: docker/docker
+      tag: '3.6'
     steps:
       - checkout
-      - docker/install-docker-compose
+      - docker/install_docker_tools
       - maven/with_cache:
           steps:
             - run:
@@ -37,7 +37,7 @@ executors:
 
 orbs:
   maven: circleci/maven@2.1.1
-  docker: circleci/docker@2.8.2
+  docker: circleci/docker@3.0.1
 
 workflows:
   maven_test:
