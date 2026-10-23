@@ -5,6 +5,7 @@ import java.util.*;
 import pl.piomin.services.organization.model.Organization;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class OrganizationRepository {
@@ -26,7 +27,7 @@ public class OrganizationRepository {
 		return organizations.stream()
 				.filter(a -> a.getId().equals(id))
 				.findFirst()
-				.orElseThrow();
+				.orElseThrow(() -> new NotFoundException("Organization not found: " + id));
 	}
 
 	public Set<Organization> findAll() {

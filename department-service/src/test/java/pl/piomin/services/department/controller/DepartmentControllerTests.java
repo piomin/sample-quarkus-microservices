@@ -65,6 +65,11 @@ public class DepartmentControllerTests {
     }
 
     @Test
+    public void testFindByIdNotFound() {
+        given().when().get("/departments/{id}", 999999L).then().statusCode(404);
+    }
+
+    @Test
     public void testInvalidAdd() {
         Department department = new Department(null, "Test5");
         given().contentType("application/json").body(department)
