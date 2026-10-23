@@ -1,8 +1,7 @@
 package pl.piomin.services.organization.controller;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.quarkus.logging.Log;
 import pl.piomin.services.organization.client.DepartmentClient;
 import pl.piomin.services.organization.client.EmployeeClient;
 import pl.piomin.services.organization.model.Organization;
@@ -18,8 +17,6 @@ import java.util.Set;
 @Produces(MediaType.APPLICATION_JSON)
 public class OrganizationController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(OrganizationController.class);
-
     @Inject
     OrganizationRepository repository;
     @Inject
@@ -31,27 +28,27 @@ public class OrganizationController {
 
     @POST
     public Organization add(@Valid Organization organization) {
-        LOGGER.info("Organization add: {}", organization);
+        Log.infof("Organization add: %s", organization);
         return repository.add(organization);
     }
 
     @GET
     public Set<Organization> findAll() {
-        LOGGER.info("Organization find");
+        Log.info("Organization find");
         return repository.findAll();
     }
 
     @Path("/{id}")
     @GET
     public Organization findById(@PathParam("id") Long id) {
-        LOGGER.info("Organization find: id={}", id);
+        Log.infof("Organization find: id=%d", id);
         return repository.findById(id);
     }
 
     @Path("/{id}/with-departments")
     @GET
     public Organization findByIdWithDepartments(@PathParam("id") Long id) {
-        LOGGER.info("Organization find: id={}", id);
+        Log.infof("Organization find: id=%d", id);
         Organization organization = repository.findById(id);
         organization.setDepartments(departmentClient.findByOrganization(organization.getId()));
         return organization;
@@ -60,7 +57,7 @@ public class OrganizationController {
     @Path("/{id}/with-departments-and-employees")
     @GET
     public Organization findByIdWithDepartmentsAndEmployees(@PathParam("id") Long id) {
-        LOGGER.info("Organization find: id={}", id);
+        Log.infof("Organization find: id=%d", id);
         Organization organization = repository.findById(id);
         organization.setDepartments(departmentClient.findByOrganizationWithEmployees(organization.getId()));
         return organization;
@@ -69,7 +66,7 @@ public class OrganizationController {
     @Path("/{id}/with-employees")
     @GET
     public Organization findByIdWithEmployees(@PathParam("id") Long id) {
-        LOGGER.info("Organization find: id={}", id);
+        Log.infof("Organization find: id=%d", id);
         Organization organization = repository.findById(id);
         organization.setEmployees(employeeClient.findByOrganization(organization.getId()));
         return organization;
