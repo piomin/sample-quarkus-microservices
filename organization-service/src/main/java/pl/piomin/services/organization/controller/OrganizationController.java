@@ -12,7 +12,7 @@ import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import java.util.Set;
+import java.util.Collection;
 
 @Path("/organizations")
 @Produces(MediaType.APPLICATION_JSON)
@@ -36,7 +36,7 @@ public class OrganizationController {
     }
 
     @GET
-    public Set<Organization> findAll() {
+    public Collection<Organization> findAll() {
         LOGGER.info("Organization find");
         return repository.findAll();
     }
