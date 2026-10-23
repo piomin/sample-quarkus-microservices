@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Employee {
 
     private Long id;
+    private Long departmentId;
     private String name;
     private int age;
     private String position;
@@ -26,6 +27,14 @@ public class Employee {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getName() {

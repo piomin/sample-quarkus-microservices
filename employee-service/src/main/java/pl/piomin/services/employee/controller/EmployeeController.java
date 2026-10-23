@@ -14,7 +14,9 @@ import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Path("/employees")
 @Produces(MediaType.APPLICATION_JSON)
@@ -90,6 +92,17 @@ public class EmployeeController {
     public Set<Employee> findByOrganization(@PathParam("organizationId") Long organizationId) {
         Log.infof("Employee find: organizationId=%d", organizationId);
         return repository.findByOrganization(organizationId);
+    }
+
+    @Path("/departments")
+    @GET
+    public Set<Employee> findByDepartments(@QueryParam("ids") String ids) {
+        Set<Long> departmentIds = Arrays.stream(ids.split(","))
+                .map(String::trim)
+                .map(Long::parseLong)
+                .collect(Collectors.toSet());
+        Log.infof("Employee find: departmentIds=%s", departmentIds);
+        return repository.findByDepartments(departmentIds);
     }
 
 }
