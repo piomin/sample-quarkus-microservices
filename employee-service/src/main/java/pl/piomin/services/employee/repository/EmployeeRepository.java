@@ -44,4 +44,8 @@ public class EmployeeRepository {
         return employees.stream().filter(a -> a.getOrganizationId().equals(organizationId)).collect(Collectors.toSet());
     }
 
+    public Set<Employee> findByDepartments(Set<Long> departmentIds) {
+        return employees.stream().filter(a -> departmentIds.contains(a.getDepartmentId())).collect(Collectors.toSet());
+    }
+
 }

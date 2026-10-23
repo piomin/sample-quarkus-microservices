@@ -53,4 +53,11 @@ public class EmployeeControllerTests {
         given().contentType("application/json").body(employee).when().post("/employees").then().statusCode(400);
     }
 
+    @Test
+    public void testFindByDepartments() {
+        given().queryParam("ids", "1,2")
+                .when().get("/employees/departments")
+                .then().statusCode(200).body(notNullValue());
+    }
+
 }
