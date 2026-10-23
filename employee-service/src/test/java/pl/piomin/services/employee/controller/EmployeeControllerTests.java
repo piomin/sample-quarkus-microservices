@@ -48,6 +48,11 @@ public class EmployeeControllerTests {
     }
 
     @Test
+    public void testFindByIdNotFound() {
+        given().when().get("/employees/{id}", 999999L).then().statusCode(404);
+    }
+
+    @Test
     public void testInvalidAdd() {
         Employee employee = new Employee();
         given().contentType("application/json").body(employee).when().post("/employees").then().statusCode(400);

@@ -3,6 +3,7 @@ package pl.piomin.services.department.repository;
 import pl.piomin.services.department.model.Department;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.NotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class DepartmentRepository {
         return departments.stream()
                 .filter(a -> a.getId().equals(id))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new NotFoundException("Department not found: " + id));
     }
 
     public Set<Department> findAll() {

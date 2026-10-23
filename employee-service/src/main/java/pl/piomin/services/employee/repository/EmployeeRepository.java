@@ -7,6 +7,7 @@ import pl.piomin.services.employee.model.Employee;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class EmployeeRepository {
@@ -29,7 +30,7 @@ public class EmployeeRepository {
         return employees.stream()
                 .filter(a -> a.getId().equals(id))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new NotFoundException("Employee not found: " + id));
     }
 
     public Set<Employee> findAll() {
