@@ -64,6 +64,19 @@ public class Organization {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Organization)) return false;
+        Organization organization = (Organization) o;
+        return java.util.Objects.equals(id, organization.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hashCode(id);
+    }
+
+    @Override
     public String toString() {
         return "Organization [id=" + id + ", name=" + name + ", address=" + address + "]";
     }
