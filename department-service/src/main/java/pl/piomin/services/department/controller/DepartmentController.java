@@ -32,7 +32,7 @@ public class DepartmentController {
     @Path("/{id}")
     @GET
     public Department findById(@PathParam("id") Long id) {
-        Log.infof("Department find: id=%s", id);
+        Log.infof("Department find: id=%d", id);
         return repository.findById(id);
     }
 
@@ -45,14 +45,14 @@ public class DepartmentController {
     @Path("/organization/{organizationId}")
     @GET
     public Set<Department> findByOrganization(@PathParam("organizationId") Long organizationId) {
-        Log.infof("Department find: organizationId=%s", organizationId);
+        Log.infof("Department find: organizationId=%d", organizationId);
         return repository.findByOrganization(organizationId);
     }
 
     @Path("/organization/{organizationId}/with-employees")
     @GET
     public Set<Department> findByOrganizationWithEmployees(@PathParam("organizationId") Long organizationId) {
-        Log.infof("Department find: organizationId=%s", organizationId);
+        Log.infof("Department find: organizationId=%d", organizationId);
         Set<Department> departments = repository.findByOrganization(organizationId);
         departments.forEach(d -> d.setEmployees(employeeClient.findByDepartment(d.getId())));
         return departments;

@@ -46,7 +46,7 @@ public class EmployeeController {
     @Path("/{id}")
     @GET
     public Employee findById(@PathParam("id") Long id) {
-        Log.infof("Employee find: id=%s", id);
+        Log.infof("Employee find: id=%d", id);
         return repository.findById(id);
     }
 
@@ -81,14 +81,14 @@ public class EmployeeController {
     public Set<Employee> findByDepartment(
           @Parameter(examples = { @ExampleObject(name = "find_by_dep_1", summary = "Main id of department", value = "1") })
           @PathParam("departmentId") Long departmentId) {
-        Log.infof("Employee find: departmentId=%s", departmentId);
+        Log.infof("Employee find: departmentId=%d", departmentId);
         return repository.findByDepartment(departmentId);
     }
 
     @Path("/organization/{organizationId}")
     @GET
     public Set<Employee> findByOrganization(@PathParam("organizationId") Long organizationId) {
-        Log.infof("Employee find: organizationId=%s", organizationId);
+        Log.infof("Employee find: organizationId=%d", organizationId);
         return repository.findByOrganization(organizationId);
     }
 

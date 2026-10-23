@@ -41,14 +41,14 @@ public class OrganizationController {
     @Path("/{id}")
     @GET
     public Organization findById(@PathParam("id") Long id) {
-        Log.infof("Organization find: id=%s", id);
+        Log.infof("Organization find: id=%d", id);
         return repository.findById(id);
     }
 
     @Path("/{id}/with-departments")
     @GET
     public Organization findByIdWithDepartments(@PathParam("id") Long id) {
-        Log.infof("Organization find: id=%s", id);
+        Log.infof("Organization find: id=%d", id);
         Organization organization = repository.findById(id);
         organization.setDepartments(departmentClient.findByOrganization(organization.getId()));
         return organization;
@@ -57,7 +57,7 @@ public class OrganizationController {
     @Path("/{id}/with-departments-and-employees")
     @GET
     public Organization findByIdWithDepartmentsAndEmployees(@PathParam("id") Long id) {
-        Log.infof("Organization find: id=%s", id);
+        Log.infof("Organization find: id=%d", id);
         Organization organization = repository.findById(id);
         organization.setDepartments(departmentClient.findByOrganizationWithEmployees(organization.getId()));
         return organization;
@@ -66,7 +66,7 @@ public class OrganizationController {
     @Path("/{id}/with-employees")
     @GET
     public Organization findByIdWithEmployees(@PathParam("id") Long id) {
-        Log.infof("Organization find: id=%s", id);
+        Log.infof("Organization find: id=%d", id);
         Organization organization = repository.findById(id);
         organization.setEmployees(employeeClient.findByOrganization(organization.getId()));
         return organization;
