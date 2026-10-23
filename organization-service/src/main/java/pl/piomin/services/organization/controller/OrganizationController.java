@@ -1,5 +1,6 @@
 package pl.piomin.services.organization.controller;
 
+import io.smallrye.common.annotation.RunOnVirtualThread;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import io.quarkus.logging.Log;
 import pl.piomin.services.organization.client.DepartmentClient;
@@ -47,6 +48,7 @@ public class OrganizationController {
 
     @Path("/{id}/with-departments")
     @GET
+    @RunOnVirtualThread
     public Organization findByIdWithDepartments(@PathParam("id") Long id) {
         Log.infof("Organization find: id=%d", id);
         Organization organization = repository.findById(id);
@@ -56,6 +58,7 @@ public class OrganizationController {
 
     @Path("/{id}/with-departments-and-employees")
     @GET
+    @RunOnVirtualThread
     public Organization findByIdWithDepartmentsAndEmployees(@PathParam("id") Long id) {
         Log.infof("Organization find: id=%d", id);
         Organization organization = repository.findById(id);
@@ -65,6 +68,7 @@ public class OrganizationController {
 
     @Path("/{id}/with-employees")
     @GET
+    @RunOnVirtualThread
     public Organization findByIdWithEmployees(@PathParam("id") Long id) {
         Log.infof("Organization find: id=%d", id);
         Organization organization = repository.findById(id);
