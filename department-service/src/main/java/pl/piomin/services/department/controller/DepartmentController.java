@@ -25,7 +25,6 @@ public class DepartmentController {
     @RestClient
     EmployeeClient employeeClient;
 
-    @Path("/")
     @POST
     public Department add(@Valid Department department) {
         LOGGER.info("Department add: {}", department);
