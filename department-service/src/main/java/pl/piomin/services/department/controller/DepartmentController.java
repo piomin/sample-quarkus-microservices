@@ -11,7 +11,7 @@ import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import java.util.Set;
+import java.util.Collection;
 
 @Path("/departments")
 @Produces(MediaType.APPLICATION_JSON)
@@ -40,23 +40,23 @@ public class DepartmentController {
     }
 
     @GET
-    public Set<Department> findAll() {
+    public Collection<Department> findAll() {
         LOGGER.info("Department find");
         return repository.findAll();
     }
 
     @Path("/organization/{organizationId}")
     @GET
-    public Set<Department> findByOrganization(@PathParam("organizationId") Long organizationId) {
+    public Collection<Department> findByOrganization(@PathParam("organizationId") Long organizationId) {
         LOGGER.info("Department find: organizationId={}", organizationId);
         return repository.findByOrganization(organizationId);
     }
 
     @Path("/organization/{organizationId}/with-employees")
     @GET
-    public Set<Department> findByOrganizationWithEmployees(@PathParam("organizationId") Long organizationId) {
+    public Collection<Department> findByOrganizationWithEmployees(@PathParam("organizationId") Long organizationId) {
         LOGGER.info("Department find: organizationId={}", organizationId);
-        Set<Department> departments = repository.findByOrganization(organizationId);
+        Collection<Department> departments = repository.findByOrganization(organizationId);
         departments.forEach(d -> d.setEmployees(employeeClient.findByDepartment(d.getId())));
         return departments;
     }
