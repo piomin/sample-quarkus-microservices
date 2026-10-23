@@ -1,8 +1,7 @@
 package pl.piomin.services.department.controller;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.quarkus.logging.Log;
 import pl.piomin.services.department.client.EmployeeClient;
 import pl.piomin.services.department.model.Department;
 import pl.piomin.services.department.repository.DepartmentRepository;
@@ -17,8 +16,6 @@ import java.util.Set;
 @Produces(MediaType.APPLICATION_JSON)
 public class DepartmentController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentController.class);
-
     @Inject
     DepartmentRepository repository;
     @Inject
@@ -28,34 +25,34 @@ public class DepartmentController {
     @Path("/")
     @POST
     public Department add(@Valid Department department) {
-        LOGGER.info("Department add: {}", department);
+        Log.infof("Department add: %s", department);
         return repository.add(department);
     }
 
     @Path("/{id}")
     @GET
     public Department findById(@PathParam("id") Long id) {
-        LOGGER.info("Department find: id={}", id);
+        Log.infof("Department find: id=%s", id);
         return repository.findById(id);
     }
 
     @GET
     public Set<Department> findAll() {
-        LOGGER.info("Department find");
+        Log.info("Department find");
         return repository.findAll();
     }
 
     @Path("/organization/{organizationId}")
     @GET
     public Set<Department> findByOrganization(@PathParam("organizationId") Long organizationId) {
-        LOGGER.info("Department find: organizationId={}", organizationId);
+        Log.infof("Department find: organizationId=%s", organizationId);
         return repository.findByOrganization(organizationId);
     }
 
     @Path("/organization/{organizationId}/with-employees")
     @GET
     public Set<Department> findByOrganizationWithEmployees(@PathParam("organizationId") Long organizationId) {
-        LOGGER.info("Department find: organizationId={}", organizationId);
+        Log.infof("Department find: organizationId=%s", organizationId);
         Set<Department> departments = repository.findByOrganization(organizationId);
         departments.forEach(d -> d.setEmployees(employeeClient.findByDepartment(d.getId())));
         return departments;
