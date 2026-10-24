@@ -45,7 +45,7 @@ executors:
 
 orbs:
   maven: circleci/maven@2.1.1
-  docker: circleci/docker@3.0.1
+  docker: circleci/docker@4.0.1
   git-shallow-clone: guitarrapc/git-shallow-clone@2.8.0
 
 workflows:
