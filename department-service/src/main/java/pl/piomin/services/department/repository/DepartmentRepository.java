@@ -29,11 +29,10 @@ public class DepartmentRepository {
     }
 
     public Department findById(Long id) {
-        Department department = departments.get(id);
-        if (department == null) {
-            throw new NoSuchElementException("Department not found: " + id);
-        }
-        return department;
+        return departments.stream()
+                .filter(a -> a.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("Department not found: " + id));
     }
 
     public Collection<Department> findAll() {

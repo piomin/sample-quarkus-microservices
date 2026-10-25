@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import pl.piomin.services.organization.model.Organization;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class OrganizationRepository {
@@ -28,11 +29,10 @@ public class OrganizationRepository {
 	}
 
 	public Organization findById(Long id) {
-		Organization organization = organizations.get(id);
-		if (organization == null) {
-			throw new NoSuchElementException("Organization not found: " + id);
-		}
-		return organization;
+		return organizations.stream()
+				.filter(a -> a.getId().equals(id))
+				.findFirst()
+				.orElseThrow(() -> new NotFoundException("Organization not found: " + id));
 	}
 
 	public Collection<Organization> findAll() {

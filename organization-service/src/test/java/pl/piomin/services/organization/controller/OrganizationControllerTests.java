@@ -59,6 +59,11 @@ public class OrganizationControllerTests {
     }
 
     @Test
+    public void testFindByIdNotFound() {
+        given().when().get("/organizations/{id}", 999999L).then().statusCode(404);
+    }
+
+    @Test
     public void testInvalidAdd() {
         Organization organization = new Organization();
         given().contentType("application/json").body(organization).when().post("/organizations").then().statusCode(400);

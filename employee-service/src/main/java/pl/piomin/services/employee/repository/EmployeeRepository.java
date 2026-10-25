@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import pl.piomin.services.employee.model.Employee;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class EmployeeRepository {
@@ -29,11 +30,10 @@ public class EmployeeRepository {
     }
 
     public Employee findById(Long id) {
-        Employee employee = employees.get(id);
-        if (employee == null) {
-            throw new java.util.NoSuchElementException("Employee not found: " + id);
-        }
-        return employee;
+        return employees.stream()
+                .filter(a -> a.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("Employee not found: " + id));
     }
 
     public Collection<Employee> findAll() {
