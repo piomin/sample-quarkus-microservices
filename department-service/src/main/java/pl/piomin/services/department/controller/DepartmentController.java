@@ -67,8 +67,8 @@ public class DepartmentController {
                 .collect(Collectors.joining(","));
         List<Employee> employees = employeeClient.findByDepartments(ids);
         Map<Long, List<Employee>> byDepartment = employees.stream()
-                .filter(e -> e.getDepartmentId() != null)
-                .collect(Collectors.groupingBy(Employee::getDepartmentId));
+                .filter(e -> e.departmentId() != null)
+                .collect(Collectors.groupingBy(Employee::departmentId));
         departments.forEach(d -> d.setEmployees(byDepartment.getOrDefault(d.getId(), List.of())));
         return departments;
     }
