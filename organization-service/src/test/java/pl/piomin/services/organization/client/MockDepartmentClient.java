@@ -20,7 +20,7 @@ public class MockDepartmentClient implements DepartmentClient {
 
     @Override
     public List<Department> findByOrganizationWithEmployees(Long organizationId) {
-        return null;
+        return Collections.emptyList();
     }
 
 }
