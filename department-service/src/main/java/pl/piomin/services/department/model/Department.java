@@ -1,5 +1,6 @@
 package pl.piomin.services.department.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -12,6 +13,11 @@ public class Department {
     private Long organizationId;
     @NotBlank
     private String name;
+    // Populated server-side only (e.g. via the with-employees endpoint).
+    // READ_ONLY access prevents clients from over-posting fabricated
+    // employees on create/update requests, while still returning the
+    // field on responses.
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Employee> employees = new ArrayList<>();
 
     public Department() {

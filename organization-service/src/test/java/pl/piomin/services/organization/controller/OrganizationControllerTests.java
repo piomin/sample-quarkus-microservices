@@ -4,10 +4,12 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
+import pl.piomin.services.organization.model.Department;
 import pl.piomin.services.organization.model.Organization;
 import pl.piomin.services.organization.repository.OrganizationRepository;
 
 import jakarta.inject.Inject;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -70,6 +72,24 @@ public class OrganizationControllerTests {
                 .when().post("/organizations").then().statusCode(200)
                 .body("id", notNullValue())
                 .body("name", equalTo(organization.getName()));
+    }
+
+    @Test
+    public void testAddIgnoresClientSuppliedDepartments() {
+        Organization organization = new Organization("Test6", "Address6");
+        organization.setDepartments(List.of(new Department(999L, "fabricated", Collections.emptyList())));
+
+        Response response = given().contentType(ContentType.JSON).body(organization)
+                .when().post("/organizations");
+
+        response.then().statusCode(200)
+                .body("id", notNullValue())
+                .body("name", equalTo(organization.getName()))
+                .body("departments.size()", is(0));
+
+        Long id = response.jsonPath().getLong("id");
+        Organization stored = repository.findById(id);
+        assertEquals(0, stored.getDepartments().size(), "Server-populated departments must not be settable by clients");
     }
 
     @Test

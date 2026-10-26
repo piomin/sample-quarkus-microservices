@@ -1,5 +1,6 @@
 package pl.piomin.services.organization.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,13 @@ public class Organization {
     private String name;
     @NotBlank
     private String address;
+    // These collections are populated server-side only (e.g. via the
+    // with-departments/with-employees endpoints). They must not be
+    // settable by clients on create/update requests, otherwise a client
+    // could "over-post" fabricated nested data - hence READ_ONLY access.
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Department> departments = new ArrayList<>();
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Employee> employees = new ArrayList<>();
 
     public Organization() {
