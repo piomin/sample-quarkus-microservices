@@ -80,6 +80,24 @@ public class DepartmentControllerTests {
     }
 
     @Test
+    public void testAddIgnoresClientSuppliedEmployees() {
+        Department department = new Department(1L, "Test6");
+        department.setEmployees(List.of(new Employee(999L, "fabricated", 30, "Fake Position")));
+
+        Response response = given().contentType(ContentType.JSON).body(department)
+                .when().post("/departments");
+
+        response.then().statusCode(200)
+                .body("id", notNullValue())
+                .body("name", equalTo(department.getName()))
+                .body("employees.size()", is(0));
+
+        Long id = response.jsonPath().getLong("id");
+        Department stored = repository.findById(id);
+        assertEquals(0, stored.getEmployees().size(), "Server-populated employees must not be settable by clients");
+    }
+
+    @Test
     public void testInvalidAdd() {
         Department department = new Department(null, "Test5");
         given().contentType("application/json").body(department)
