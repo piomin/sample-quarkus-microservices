@@ -30,10 +30,11 @@ public class EmployeeRepository {
     }
 
     public Employee findById(Long id) {
-        return employees.stream()
-                .filter(a -> a.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException("Employee not found: " + id));
+        Employee employee = employees.get(id);
+        if (employee == null) {
+            throw new NotFoundException("Employee not found: " + id);
+        }
+        return employee;
     }
 
     public Collection<Employee> findAll() {

@@ -2,7 +2,6 @@ package pl.piomin.services.organization.repository;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -29,10 +28,11 @@ public class OrganizationRepository {
 	}
 
 	public Organization findById(Long id) {
-		return organizations.stream()
-				.filter(a -> a.getId().equals(id))
-				.findFirst()
-				.orElseThrow(() -> new NotFoundException("Organization not found: " + id));
+		Organization organization = organizations.get(id);
+		if (organization == null) {
+			throw new NotFoundException("Organization not found: " + id);
+		}
+		return organization;
 	}
 
 	public Collection<Organization> findAll() {

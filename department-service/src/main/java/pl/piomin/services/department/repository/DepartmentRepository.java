@@ -3,9 +3,9 @@ package pl.piomin.services.department.repository;
 import pl.piomin.services.department.model.Department;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.NotFoundException;
 import java.util.Collection;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -29,10 +29,11 @@ public class DepartmentRepository {
     }
 
     public Department findById(Long id) {
-        return departments.stream()
-                .filter(a -> a.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException("Department not found: " + id));
+        Department department = departments.get(id);
+        if (department == null) {
+            throw new NotFoundException("Department not found: " + id);
+        }
+        return department;
     }
 
     public Collection<Department> findAll() {
