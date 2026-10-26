@@ -76,13 +76,13 @@ public class DepartmentClientContractTests {
         List<Department> departments = client.findByOrganization(1L);
         assertNotNull(departments);
         assertTrue(departments.size() > 0);
-        assertNotNull(departments.get(0).getId());
+        assertNotNull(departments.get(0).id());
 
         departments = client.findByOrganizationWithEmployees(1L);
         assertNotNull(departments);
         assertTrue(departments.size() > 0);
-        assertNotNull(departments.get(0).getId());
-        assertFalse(departments.get(0).getEmployees().isEmpty());
+        assertNotNull(departments.get(0).id());
+        assertFalse(departments.get(0).employees().isEmpty());
     }
 
 }

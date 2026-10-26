@@ -54,11 +54,13 @@ public class EmployeeController {
     @APIResponses(value = {
           @APIResponse(responseCode = "200", content = {
                 @Content(mediaType = "application/json", examples = {
-                      @ExampleObject(name = "all_persons", value = "[\n" +
-                            "{\"id\": 1, \"name\": \"Test User 1\", \"age\": 20, \"organizationId\": 1, \"departmentId\": 1, \"position\": \"developer\"},\n" +
-                            "{\"id\": 2, \"name\": \"Test User 2\", \"age\": 30, \"organizationId\": 1, \"departmentId\": 2, \"position\": \"architect\"},\n" +
-                            "{\"id\": 3, \"name\": \"Test User 3\", \"age\": 40, \"organizationId\": 2, \"departmentId\": 3, \"position\": \"developer\"},\n" +
-                            "]")
+                      @ExampleObject(name = "all_persons", value = """
+                            [
+                            {"id": 1, "name": "Test User 1", "age": 20, "organizationId": 1, "departmentId": 1, "position": "developer"},
+                            {"id": 2, "name": "Test User 2", "age": 30, "organizationId": 1, "departmentId": 2, "position": "architect"},
+                            {"id": 3, "name": "Test User 3", "age": 40, "organizationId": 2, "departmentId": 3, "position": "developer"}
+                            ]
+                            """)
                 })
           })
     })
@@ -72,9 +74,11 @@ public class EmployeeController {
     @APIResponses(value = {
           @APIResponse(responseCode = "200", content = {
                 @Content(mediaType = "application/json", examples = {
-                      @ExampleObject(name = "find_by_dep_1", value = "[\n" +
-                            "{ \"id\": 1, \"name\": \"Test User 1\", \"age\": 20, \"organizationId\": 1, \"departmentId\": 1, \"position\": \"developer\" }\n" +
-                            "]")
+                      @ExampleObject(name = "find_by_dep_1", value = """
+                            [
+                            { "id": 1, "name": "Test User 1", "age": 20, "organizationId": 1, "departmentId": 1, "position": "developer" }
+                            ]
+                            """)
                 })
           })
     })
