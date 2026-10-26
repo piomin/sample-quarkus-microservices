@@ -46,4 +46,9 @@ public class EmployeeContractTests {
     void findByOrganization() {
 
     }
+
+    @State("findByDepartments")
+    void findByDepartments() {
+
+    }
 }

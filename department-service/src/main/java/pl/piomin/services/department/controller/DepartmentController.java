@@ -4,6 +4,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import io.quarkus.logging.Log;
 import pl.piomin.services.department.client.EmployeeClient;
 import pl.piomin.services.department.model.Department;
+import pl.piomin.services.department.model.Employee;
 import pl.piomin.services.department.repository.DepartmentRepository;
 
 import jakarta.inject.Inject;
@@ -62,9 +63,10 @@ public class DepartmentController {
         String ids = departments.stream()
                 .map(d -> d.getId().toString())
                 .collect(Collectors.joining(","));
-        List<pl.piomin.services.department.model.Employee> employees = employeeClient.findByDepartments(ids);
-        Map<Long, List<pl.piomin.services.department.model.Employee>> byDepartment = employees.stream()
-                .collect(Collectors.groupingBy(pl.piomin.services.department.model.Employee::getDepartmentId));
+        List<Employee> employees = employeeClient.findByDepartments(ids);
+        Map<Long, List<Employee>> byDepartment = employees.stream()
+                .filter(e -> e.getDepartmentId() != null)
+                .collect(Collectors.groupingBy(Employee::getDepartmentId));
         departments.forEach(d -> d.setEmployees(byDepartment.getOrDefault(d.getId(), List.of())));
         return departments;
     }

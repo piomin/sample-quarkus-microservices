@@ -60,4 +60,24 @@ public class EmployeeControllerTests {
                 .then().statusCode(200).body(notNullValue());
     }
 
+    @Test
+    public void testFindByDepartmentsMissingIds() {
+        given().when().get("/employees/departments")
+                .then().statusCode(200).body(equalTo("[]"));
+    }
+
+    @Test
+    public void testFindByDepartmentsBlankIds() {
+        given().queryParam("ids", "")
+                .when().get("/employees/departments")
+                .then().statusCode(200).body(equalTo("[]"));
+    }
+
+    @Test
+    public void testFindByDepartmentsMalformedIds() {
+        given().queryParam("ids", "1,,abc, 2")
+                .when().get("/employees/departments")
+                .then().statusCode(200).body(notNullValue());
+    }
+
 }

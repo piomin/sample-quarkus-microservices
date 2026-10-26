@@ -51,7 +51,7 @@ public class EmployeeClientContractTests {
     }
 
     @Test
-    @PactTestFor(providerName = "employee-service", pactVersion = PactSpecVersion.V4)
+    @PactTestFor(providerName = "employee-service", pactVersion = PactSpecVersion.V4, pactMethod = "callFindDepartment")
     public void verifyFindDepartmentPact(final PactMockServer mockServer) {
         System.out.println(mockServer.getUrl());
         EmployeeClient client = RestClientBuilder.newBuilder()
@@ -62,5 +62,39 @@ public class EmployeeClientContractTests {
         assertNotNull(employees);
         assertTrue(employees.size() > 0);
         assertNotNull(employees.get(0).getId());
+    }
+
+    @Pact(provider = "employee-service", consumer = "department-service")
+    public V4Pact callFindDepartments(PactDslWithProvider builder) {
+        DslPart body = PactDslJsonArray.arrayEachLike()
+                .integerType("id")
+                .integerType("departmentId")
+                .stringType("name")
+                .stringType("position")
+                .numberType("age")
+                .closeObject();
+        return builder.given("findByDepartments")
+                .uponReceiving("findByDepartments")
+                    .path("/employees/departments")
+                    .query("ids=1,2")
+                    .method("GET")
+                .willRespondWith()
+                    .status(200)
+                    .body(body).toPact(V4Pact.class);
+    }
+
+    @Test
+    @PactTestFor(providerName = "employee-service", pactVersion = PactSpecVersion.V4, pactMethod = "callFindDepartments")
+    public void verifyFindDepartmentsPact(final PactMockServer mockServer) {
+        System.out.println(mockServer.getUrl());
+        EmployeeClient client = RestClientBuilder.newBuilder()
+                .baseUri(URI.create(mockServer.getUrl()))
+                .build(EmployeeClient.class);
+        List<Employee> employees = client.findByDepartments("1,2");
+        System.out.println(employees);
+        assertNotNull(employees);
+        assertTrue(employees.size() > 0);
+        assertNotNull(employees.get(0).getId());
+        assertNotNull(employees.get(0).getDepartmentId());
     }
 }
