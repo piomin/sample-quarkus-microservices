@@ -15,7 +15,7 @@ public class MockEmployeeClient implements EmployeeClient {
 
     @Override
     public List<Employee> findByOrganization(Long organizationId) {
-        return Collections.singletonList(new Employee("Test1", 30, "Developer"));
+        return Collections.singletonList(new Employee(1L, "Test1", 30, "Developer"));
     }
 
 }
