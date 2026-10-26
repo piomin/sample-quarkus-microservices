@@ -50,6 +50,20 @@ public class OrganizationControllerTests {
     }
 
     @Test
+    public void testFindByIdWithDepartmentsAndEmployees() {
+        given().when().get("/organizations/{id}/with-departments-and-employees", 1L).then().statusCode(200)
+                .body(notNullValue())
+                .body("departments.size()", is(0));
+    }
+
+    @Test
+    public void testFindByIdWithEmployees() {
+        given().when().get("/organizations/{id}/with-employees", 1L).then().statusCode(200)
+                .body(notNullValue())
+                .body("employees.size()", is(1));
+    }
+
+    @Test
     public void testAdd() {
         Organization organization = new Organization("Test5", "Address5");
         given().contentType("application/json").body(organization)
