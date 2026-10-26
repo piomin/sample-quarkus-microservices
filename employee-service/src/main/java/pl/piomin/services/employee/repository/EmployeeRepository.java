@@ -1,18 +1,21 @@
 package pl.piomin.services.employee.repository;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import pl.piomin.services.employee.model.Employee;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class EmployeeRepository {
 
-    private final Set<Employee> employees = new HashSet<>();
+    private final Map<Long, Employee> employees = new ConcurrentHashMap<>();
+    private final AtomicLong sequence = new AtomicLong();
 
     public EmployeeRepository() {
         add(new Employee(1L, 1L, "John Smith", 30, "Developer"));
@@ -21,28 +24,33 @@ public class EmployeeRepository {
     }
 
     public Employee add(Employee employee) {
-        employee.setId((long) (employees.size() + 1));
-        employees.add(employee);
+        employee.setId(sequence.incrementAndGet());
+        employees.put(employee.getId(), employee);
         return employee;
     }
 
     public Employee findById(Long id) {
-        return employees.stream()
-                .filter(a -> a.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException("Employee not found: " + id));
+        Employee employee = employees.get(id);
+        if (employee == null) {
+            throw new NotFoundException("Employee not found: " + id);
+        }
+        return employee;
     }
 
-    public Set<Employee> findAll() {
-        return employees;
+    public Collection<Employee> findAll() {
+        return employees.values();
     }
 
-    public Set<Employee> findByDepartment(Long departmentId) {
-        return employees.stream().filter(a -> a.getDepartmentId().equals(departmentId)).collect(Collectors.toSet());
+    public Collection<Employee> findByDepartment(Long departmentId) {
+        return employees.values().stream()
+                .filter(a -> a.getDepartmentId().equals(departmentId))
+                .collect(Collectors.toList());
     }
 
-    public Set<Employee> findByOrganization(Long organizationId) {
-        return employees.stream().filter(a -> a.getOrganizationId().equals(organizationId)).collect(Collectors.toSet());
+    public Collection<Employee> findByOrganization(Long organizationId) {
+        return employees.values().stream()
+                .filter(a -> a.getOrganizationId().equals(organizationId))
+                .collect(Collectors.toList());
     }
 
 }

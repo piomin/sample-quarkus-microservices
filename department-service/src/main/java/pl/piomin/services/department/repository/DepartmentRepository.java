@@ -4,14 +4,17 @@ import pl.piomin.services.department.model.Department;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.NotFoundException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class DepartmentRepository {
 
-    private final Set<Department> departments = new HashSet<>();
+    private final Map<Long, Department> departments = new ConcurrentHashMap<>();
+    private final AtomicLong sequence = new AtomicLong();
 
     public DepartmentRepository() {
         add(new Department(1L, "Test1"));
@@ -20,24 +23,27 @@ public class DepartmentRepository {
     }
 
     public Department add(Department department) {
-        department.setId((long) (departments.size() + 1));
-        departments.add(department);
+        department.setId(sequence.incrementAndGet());
+        departments.put(department.getId(), department);
         return department;
     }
 
     public Department findById(Long id) {
-        return departments.stream()
-                .filter(a -> a.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException("Department not found: " + id));
+        Department department = departments.get(id);
+        if (department == null) {
+            throw new NotFoundException("Department not found: " + id);
+        }
+        return department;
     }
 
-    public Set<Department> findAll() {
-        return departments;
+    public Collection<Department> findAll() {
+        return departments.values();
     }
 
-    public Set<Department> findByOrganization(Long organizationId) {
-        return departments.stream().filter(a -> a.getOrganizationId().equals(organizationId)).collect(Collectors.toSet());
+    public Collection<Department> findByOrganization(Long organizationId) {
+        return departments.values().stream()
+                .filter(a -> a.getOrganizationId().equals(organizationId))
+                .collect(Collectors.toList());
     }
 
 }

@@ -1,6 +1,9 @@
 package pl.piomin.services.organization.repository;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 import pl.piomin.services.organization.model.Organization;
 
@@ -10,7 +13,8 @@ import jakarta.ws.rs.NotFoundException;
 @ApplicationScoped
 public class OrganizationRepository {
 
-	private final Set<Organization> organizations = new HashSet<>();
+	private final Map<Long, Organization> organizations = new ConcurrentHashMap<>();
+	private final AtomicLong sequence = new AtomicLong();
 
 	public OrganizationRepository() {
 		add(new Organization("Test1", "Address1"));
@@ -18,20 +22,21 @@ public class OrganizationRepository {
 	}
 
 	public Organization add(Organization organization) {
-		organization.setId((long) (organizations.size()+1));
-		organizations.add(organization);
+		organization.setId(sequence.incrementAndGet());
+		organizations.put(organization.getId(), organization);
 		return organization;
 	}
-	
+
 	public Organization findById(Long id) {
-		return organizations.stream()
-				.filter(a -> a.getId().equals(id))
-				.findFirst()
-				.orElseThrow(() -> new NotFoundException("Organization not found: " + id));
+		Organization organization = organizations.get(id);
+		if (organization == null) {
+			throw new NotFoundException("Organization not found: " + id);
+		}
+		return organization;
 	}
 
-	public Set<Organization> findAll() {
-		return organizations;
+	public Collection<Organization> findAll() {
+		return organizations.values();
 	}
-	
+
 }

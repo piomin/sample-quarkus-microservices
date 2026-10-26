@@ -14,7 +14,7 @@ import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import java.util.Set;
+import java.util.Collection;
 
 @Path("/employees")
 @Produces(MediaType.APPLICATION_JSON)
@@ -64,7 +64,8 @@ public class EmployeeController {
                 })
           })
     })
-    public Set<Employee> findAll() {
+
+    public Collection<Employee> findAll() {
         Log.info("Employee find");
         return repository.findAll();
     }
@@ -82,7 +83,7 @@ public class EmployeeController {
                 })
           })
     })
-    public Set<Employee> findByDepartment(
+    public Collection<Employee> findByDepartment(
           @Parameter(examples = { @ExampleObject(name = "find_by_dep_1", summary = "Main id of department", value = "1") })
           @PathParam("departmentId") Long departmentId) {
         Log.infof("Employee find: departmentId=%d", departmentId);
@@ -91,7 +92,7 @@ public class EmployeeController {
 
     @Path("/organization/{organizationId}")
     @GET
-    public Set<Employee> findByOrganization(@PathParam("organizationId") Long organizationId) {
+    public Collection<Employee> findByOrganization(@PathParam("organizationId") Long organizationId) {
         Log.infof("Employee find: organizationId=%d", organizationId);
         return repository.findByOrganization(organizationId);
     }
