@@ -61,7 +61,7 @@ public class EmployeeClientContractTests {
         System.out.println(employees);
         assertNotNull(employees);
         assertTrue(employees.size() > 0);
-        assertNotNull(employees.get(0).getId());
+        assertNotNull(employees.get(0).id());
     }
 
     @Pact(provider = "employee-service", consumer = "department-service")

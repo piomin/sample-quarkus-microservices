@@ -81,6 +81,19 @@ public class Employee {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Employee)) return false;
+        Employee employee = (Employee) o;
+        return java.util.Objects.equals(id, employee.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hashCode(id);
+    }
+
+    @Override
     public String toString() {
         return "Employee [id=" + id + ", organizationId=" + organizationId + ", departmentId=" + departmentId
                 + ", name=" + name + ", position=" + position + "]";

@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   analyze:
     docker:
-      - image: 'cimg/openjdk:25.0.1'
+      - image: 'cimg/openjdk:25.0.4'
     steps:
       - checkout
       - git-shallow-clone/checkout_advanced:
@@ -44,7 +44,7 @@ executors:
       platform: "linux/amd64"
 
 orbs:
-  maven: circleci/maven@2.1.1
+  maven: circleci/maven@2.2.0
   docker: circleci/docker@3.0.1
   git-shallow-clone: guitarrapc/git-shallow-clone@2.8.0
 

@@ -15,12 +15,12 @@ public class MockDepartmentClient implements DepartmentClient {
 
     @Override
     public List<Department> findByOrganization(Long organizationId) {
-        return Collections.singletonList(new Department("Test1"));
+        return Collections.singletonList(new Department(1L, "Test1", Collections.emptyList()));
     }
 
     @Override
     public List<Department> findByOrganizationWithEmployees(Long organizationId) {
-        return null;
+        return Collections.emptyList();
     }
 
 }
