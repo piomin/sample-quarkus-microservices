@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.piomin.services.employee.client.DepartmentClient;
 import pl.piomin.services.employee.client.OrganizationClient;
+import io.quarkus.logging.Log;
 import pl.piomin.services.employee.model.Employee;
 import pl.piomin.services.employee.repository.EmployeeRepository;
 
@@ -19,13 +20,11 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.util.Set;
+import java.util.Collection;
 
 @Path("/employees")
 @Produces(MediaType.APPLICATION_JSON)
 public class EmployeeController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
 
     @Inject
     EmployeeRepository repository;
@@ -55,7 +54,7 @@ public class EmployeeController {
                 })
           })
           @Valid Employee employee) {
-        LOGGER.info("Employee add: {}", employee);
+        Log.infof("Employee add: %s", employee);
         try {
             departmentClient.findById(employee.getDepartmentId());
         } catch (Exception e) {
@@ -78,7 +77,7 @@ public class EmployeeController {
     @Path("/{id}")
     @GET
     public Employee findById(@PathParam("id") Long id) {
-        LOGGER.info("Employee find: id={}", id);
+        Log.infof("Employee find: id=%d", id);
         return repository.findById(id);
     }
 
@@ -86,16 +85,19 @@ public class EmployeeController {
     @APIResponses(value = {
           @APIResponse(responseCode = "200", content = {
                 @Content(mediaType = "application/json", examples = {
-                      @ExampleObject(name = "all_persons", value = "[\n" +
-                            "{\"id\": 1, \"name\": \"Test User 1\", \"age\": 20, \"organizationId\": 1, \"departmentId\": 1, \"position\": \"developer\"},\n" +
-                            "{\"id\": 2, \"name\": \"Test User 2\", \"age\": 30, \"organizationId\": 1, \"departmentId\": 2, \"position\": \"architect\"},\n" +
-                            "{\"id\": 3, \"name\": \"Test User 3\", \"age\": 40, \"organizationId\": 2, \"departmentId\": 3, \"position\": \"developer\"},\n" +
-                            "]")
+                      @ExampleObject(name = "all_persons", value = """
+                            [
+                            {"id": 1, "name": "Test User 1", "age": 20, "organizationId": 1, "departmentId": 1, "position": "developer"},
+                            {"id": 2, "name": "Test User 2", "age": 30, "organizationId": 1, "departmentId": 2, "position": "architect"},
+                            {"id": 3, "name": "Test User 3", "age": 40, "organizationId": 2, "departmentId": 3, "position": "developer"}
+                            ]
+                            """)
                 })
           })
     })
-    public Set<Employee> findAll() {
-        LOGGER.info("Employee find");
+
+    public Collection<Employee> findAll() {
+        Log.info("Employee find");
         return repository.findAll();
     }
 
@@ -104,23 +106,25 @@ public class EmployeeController {
     @APIResponses(value = {
           @APIResponse(responseCode = "200", content = {
                 @Content(mediaType = "application/json", examples = {
-                      @ExampleObject(name = "find_by_dep_1", value = "[\n" +
-                            "{ \"id\": 1, \"name\": \"Test User 1\", \"age\": 20, \"organizationId\": 1, \"departmentId\": 1, \"position\": \"developer\" }\n" +
-                            "]")
+                      @ExampleObject(name = "find_by_dep_1", value = """
+                            [
+                            { "id": 1, "name": "Test User 1", "age": 20, "organizationId": 1, "departmentId": 1, "position": "developer" }
+                            ]
+                            """)
                 })
           })
     })
-    public Set<Employee> findByDepartment(
+    public Collection<Employee> findByDepartment(
           @Parameter(examples = { @ExampleObject(name = "find_by_dep_1", summary = "Main id of department", value = "1") })
           @PathParam("departmentId") Long departmentId) {
-        LOGGER.info("Employee find: departmentId={}", departmentId);
+        Log.infof("Employee find: departmentId=%d", departmentId);
         return repository.findByDepartment(departmentId);
     }
 
     @Path("/organization/{organizationId}")
     @GET
-    public Set<Employee> findByOrganization(@PathParam("organizationId") Long organizationId) {
-        LOGGER.info("Employee find: organizationId={}", organizationId);
+    public Collection<Employee> findByOrganization(@PathParam("organizationId") Long organizationId) {
+        Log.infof("Employee find: organizationId=%d", organizationId);
         return repository.findByOrganization(organizationId);
     }
 

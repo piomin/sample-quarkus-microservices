@@ -64,6 +64,6 @@ public class EmployeeClientContractTests extends PactConsumerTestBase {
         System.out.println(employees);
         assertNotNull(employees);
         assertTrue(employees.size() > 0);
-        assertNotNull(employees.get(0).getId());
+        assertNotNull(employees.get(0).id());
     }
 }

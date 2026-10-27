@@ -4,6 +4,8 @@ import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.BeforeEach;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import pl.piomin.services.employee.client.DepartmentClient;
@@ -15,10 +17,18 @@ import pl.piomin.services.employee.repository.EmployeeRepository;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest
 public class EmployeeControllerTests {
@@ -82,6 +92,11 @@ public class EmployeeControllerTests {
     }
 
     @Test
+    public void testFindByIdNotFound() {
+        given().when().get("/employees/{id}", 999999L).then().statusCode(404);
+    }
+
+    @Test
     public void testInvalidAdd() {
         Employee employee = new Employee();
         given().contentType("application/json").body(employee).when().post("/employees").then().statusCode(400);
@@ -95,10 +110,25 @@ public class EmployeeControllerTests {
     }
 
     @Test
-    public void testAddWithNonExistentOrganization() {
-        Employee employee = new Employee(9999L, 1L, "Ghost Employee", 25, "Developer");
-        given().contentType("application/json").body(employee)
-                .when().post("/employees").then().statusCode(404);
+    public void testConcurrentAddProducesUniqueIds() throws InterruptedException {
+        int threadCount = 10;
+        List<Long> ids = new CopyOnWriteArrayList<>();
+        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+        for (int i = 0; i < threadCount; i++) {
+            final int index = i;
+            executor.submit(() -> {
+                Employee employee = new Employee(1L, 1L, "Concurrent User " + index, 25, "Tester");
+                Response response = given().contentType(ContentType.JSON).body(employee)
+                        .when().post("/employees");
+                long id = response.jsonPath().getLong("id");
+                ids.add(id);
+            });
+        }
+        executor.shutdown();
+        executor.awaitTermination(30, TimeUnit.SECONDS);
+        assertEquals(threadCount, ids.size(), "All requests should have completed");
+        Set<Long> uniqueIds = ids.stream().collect(Collectors.toSet());
+        assertEquals(threadCount, uniqueIds.size(), "All assigned IDs must be unique");
     }
 
 }
