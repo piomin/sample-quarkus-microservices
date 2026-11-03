@@ -20,6 +20,14 @@ jobs:
       image: ubuntu-2204:current
     steps:
       - checkout
+      - run:
+          name: Install OpenJDK 25
+          command: |
+            wget -q https://download.java.net/java/GA/jdk25/472eaa50255a/9/GPL/openjdk-25_linux-x64_bin.tar.gz -O /tmp/openjdk25.tar.gz
+            sudo mkdir -p /opt/java/openjdk25
+            sudo tar -xzf /tmp/openjdk25.tar.gz -C /opt/java/openjdk25 --strip-components=1
+            echo 'export JAVA_HOME=/opt/java/openjdk25' >> $BASH_ENV
+            echo 'export PATH=$JAVA_HOME/bin:$PATH' >> $BASH_ENV
       - docker/install_docker_compose
       - maven/with_cache:
           steps:
