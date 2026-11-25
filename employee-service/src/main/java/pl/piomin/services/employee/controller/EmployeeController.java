@@ -6,6 +6,11 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pl.piomin.services.employee.client.DepartmentClient;
+import pl.piomin.services.employee.client.OrganizationClient;
 import io.quarkus.logging.Log;
 import pl.piomin.services.employee.model.Employee;
 import pl.piomin.services.employee.repository.EmployeeRepository;
@@ -14,6 +19,7 @@ import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.Collection;
 
 @Path("/employees")
@@ -23,15 +29,24 @@ public class EmployeeController {
     @Inject
     EmployeeRepository repository;
 
+    @Inject
+    @RestClient
+    DepartmentClient departmentClient;
+
+    @Inject
+    @RestClient
+    OrganizationClient organizationClient;
+
     @POST
     @APIResponses(value = {
           @APIResponse(responseCode = "200", content = {
                 @Content(mediaType = "application/json", examples = {
                       @ExampleObject(name = "add_employee", value = "{\"id\": 4, \"name\": \"Test User 4\", \"age\": 50, \"organizationId\": 2, \"departmentId\": 3, \"position\": \"tester\"}")
                 })
-          })
+          }),
+          @APIResponse(responseCode = "404", description = "Department or organization not found")
     })
-    public Employee add(
+    public Response add(
           @RequestBody(content = {
                 @Content(mediaType = "application/json", examples = {
                       @ExampleObject(name = "add_employee", summary = "Hire a new employee", description = "Should return 200",
@@ -40,7 +55,23 @@ public class EmployeeController {
           })
           @Valid Employee employee) {
         Log.infof("Employee add: %s", employee);
-        return repository.add(employee);
+        try {
+            departmentClient.findById(employee.getDepartmentId());
+        } catch (Exception e) {
+            LOGGER.warn("Department not found: id={}", employee.getDepartmentId());
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Department not found: " + employee.getDepartmentId())
+                    .build();
+        }
+        try {
+            organizationClient.findById(employee.getOrganizationId());
+        } catch (Exception e) {
+            LOGGER.warn("Organization not found: id={}", employee.getOrganizationId());
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Organization not found: " + employee.getOrganizationId())
+                    .build();
+        }
+        return Response.ok(repository.add(employee)).build();
     }
 
     @Path("/{id}")
